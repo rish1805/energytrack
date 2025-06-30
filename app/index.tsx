@@ -21,18 +21,43 @@ function getGreeting(locale: "en"|"da" = "en") {
     return lang.evening;
 }
 
+const DAILY_LIMIT = 400 // mg of caffeine per day (FDA recommendation)
+const currentCaffeine = 0
+
+const getCaffeineStatus = () => {
+    if (currentCaffeine > DAILY_LIMIT) return { text: 'Over Limit', color: 'text-red-400' };
+    if (currentCaffeine > DAILY_LIMIT * 0.8) return { text: 'High', color: 'text-yellow-400' };
+    if (currentCaffeine > DAILY_LIMIT * 0.5) return { text: 'Moderate', color: 'text-blue-400' };
+    return { text: 'Low', color: 'text-green-400' };
+};
+
+
 export default function Index() {
     return (
         <View className="flex-1">
-            {/* Top 1/3 - dark navy */}
             <View className="flex-[0.45] bg-[#1c2333] px-6 pt-10">
-                <Text className="text-2xl font-bold text-white mb-1">Good morning!</Text>
-                <Text className="text-gray-400">Track your caffeine intake</Text>
+                {/* First Row: Greeting + Status */}
+                <View className="flex-row justify-between items-center mb-1">
+                    <Text className="text-2xl font-bold text-white">{getGreeting()}</Text>
+                    <Text className={`text-lg font-semibold ${getCaffeineStatus().color}`}>
+                        {getCaffeineStatus().text}
+                    </Text>
+                </View>
+
+                {/* Second Row: Subtitle + mg info */}
+                <View className="flex-row justify-between items-center">
+                    <Text className="text-gray-400">Track your caffeine intake</Text>
+                    <Text className="text-sm text-gray-400">{currentCaffeine} mg active</Text>
+                </View>
             </View>
 
+
+
             {/* Bottom 2/3 - darker navy */}
-            <View className="flex-[0.7] bg-[#0b0f19] px-6 py-4">
-            </View>
+            <View className="flex-[0.7] bg-[#0b0f19] px-6 py-4"></View>
+
         </View>
+
     );
 }
+
