@@ -55,7 +55,7 @@ export default function Index() {
                 {/*Caffeine ring*/}
                 <View className="flex items-center justify-center py-8">
                     {/* Outer ring (simulated) */}
-                    <View className="w-36 h-36 rounded-full border-4 border-yellow-400 items-center justify-center">
+                    <View className="w-36 h-36 rounded-full border-[9px] border-yellow-400 items-center justify-center">
                         {/* Inner text */}
                         <Text className="text-3xl font-bold text-white">{currentCaffeine}</Text>
                         <Text className="text-xs text-gray-400 mt-1">mg caffeine</Text>
