@@ -1,6 +1,7 @@
-import { Text, View } from "react-native";
+import {Pressable, Text, View} from "react-native";
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Plus, Clock, TrendingUp, Settings } from 'lucide-react-native';
 import CaffeineRing from '@/components/CaffeineRing';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link } from "expo-router";
@@ -183,6 +184,16 @@ export default function Index() {
                         <Text className="text-xs text-slate-500">{dailyLimit - todaysCaffeine}mg remaining</Text>
                     </CardContent>
                 </Card>
+            </View>
+
+            <View className="items-center py-4">
+                <Pressable
+                    onPress={() => setShowAddModal(true)}
+                    className="bg-blue-600 px-8 py-3 rounded-full flex-row items-center"
+                >
+                    <Plus className="w-5 h-5 mr-2 text-white" />
+                    <Text className="text-white font-medium text-base">Add Drink</Text>
+                </Pressable>
             </View>
 
 
