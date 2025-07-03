@@ -1,75 +1,196 @@
 import { Text, View } from "react-native";
-import {Link} from "expo-router";
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CaffeineRing from '@/components/CaffeineRing';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Link } from "expo-router";
 
-function getGreeting(locale: "en"|"da" = "en") {
+// Greeting logic
+function getGreeting(locale: "en" | "da" = "en") {
     const hour = new Date().getHours();
     const greetings = {
-        en : {
+        en: {
             morning: "Good morning!",
             afternoon: "Good afternoon!",
             evening: "Good evening!",
         },
-        da : {
+        da: {
             morning: "Godmorgen!",
             afternoon: "God eftermiddag!",
             evening: "God aften!",
         },
     };
-    const lang = greetings[locale] || greetings.en;
-    if (hour < 12) return lang.morning;
-    if (hour < 18) return lang.afternoon;
-    return lang.evening;
+
+    if (hour < 12) return greetings[locale].morning;
+    else if (hour < 17) return greetings[locale].afternoon;
+    else return greetings[locale].evening;
 }
 
-const DAILY_LIMIT = 400 // mg of caffeine per day (FDA recommendation)
-const currentCaffeine = 0
+// DrinkEntry type
+interface DrinkEntry {
+    id: string;
+    name: string;
+    caffeine: number;
+    time: Date;
+    category: "energy" | "coffee" | "preworkout" | "soda" | "tea" | "other";
+}
 
-const getCaffeineStatus = () => {
-    if (currentCaffeine > DAILY_LIMIT) return { text: 'Over Limit', color: 'text-red-400' };
-    if (currentCaffeine > DAILY_LIMIT * 0.8) return { text: 'High', color: 'text-yellow-400' };
-    if (currentCaffeine > DAILY_LIMIT * 0.5) return { text: 'Moderate', color: 'text-blue-400' };
-    return { text: 'Low', color: 'text-green-400' };
-};
-
-
+// Main page component
 export default function Index() {
-    return (
-        <View className="flex-1">
+    const [drinks, setDrinks] = useState<DrinkEntry[]>([]);
 
-            {/* Top 1/3 - darker navy */}
-            <View className="flex-[0.45] bg-[#1c2333] px-6 pt-10">
-                {/* First Row: Greeting + Status */}
-                <View className="flex-row justify-between items-center mb-1">
-                    <Text className="text-2xl font-bold text-white">{getGreeting()}</Text>
-                    <Text className={`text-lg font-semibold ${getCaffeineStatus().color}`}>
-                        {getCaffeineStatus().text}
+    const [dailyLimit, setDailyLimit] = useState(400);
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [currentTime, setCurrentTime] = useState(new Date());
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 60000);
+        return () => clearInterval(timer);
+    }, []);
+
+    useEffect(() => {
+        const loadDrinks = async () => {
+            try {
+                const saved = await AsyncStorage.getItem("caffeineTracker");
+                if (saved) setDrinks(JSON.parse(saved));
+            } catch (e) {
+                console.error("Failed to load drinks", e);
+            }
+        };
+        loadDrinks();
+    }, []);
+
+    useEffect(() => {
+        const saveDrinks = async () => {
+            try {
+                await AsyncStorage.setItem("caffeineTracker", JSON.stringify(drinks));
+            } catch (e) {
+                console.error("Failed to save drinks", e);
+            }
+        };
+        saveDrinks();
+    }, [drinks]);
+
+
+    const today = new Date();
+    const todaysDrinks = drinks.filter((drink) => {
+        const drinkDate = new Date(drink.time);
+        return drinkDate.toDateString() === today.toDateString();
+    });
+
+    const todaysCaffeine = todaysDrinks.reduce(
+        (sum, drink) => sum + drink.caffeine,
+        0
+    );
+    const caffeinePercentage = Math.min((todaysCaffeine / dailyLimit) * 100, 100);
+
+    const getStatusText = () => {
+        if (todaysCaffeine === 0) return "None";
+        if (todaysCaffeine < dailyLimit * 0.5) return "Low";
+        if (todaysCaffeine < dailyLimit * 0.8) return "Moderate";
+        if (todaysCaffeine < dailyLimit) return "High";
+        return "Excessive";
+    };
+
+    const getTimeSinceLastDrink = () => {
+        if (todaysDrinks.length === 0) return "-";
+
+        const lastDrink = todaysDrinks.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())[0];
+        const timeDiff = currentTime.getTime() - new Date(lastDrink.time).getTime();
+        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+
+        if (hours === 0) {
+            return `${minutes}m`;
+        } else {
+            return `${hours}h ${minutes}m`;
+        }
+    };
+
+    const getStatusColor = () => {
+        if (todaysCaffeine === 0) return "text-slate-500";
+        if (todaysCaffeine < dailyLimit * 0.5) return "text-green-400";
+        if (todaysCaffeine < dailyLimit * 0.8) return "text-yellow-400";
+        if (todaysCaffeine < dailyLimit) return "text-orange-400";
+        return "text-red-500";
+    };
+
+    return (
+        <View className="flex-1 bg-slate-900 px-4 pt-16 space-y-8">
+
+            {/* Header row */}
+            <View className="flex-row justify-between items-start">
+                {/* Left: Greeting */}
+                <View>
+                    <Text className="text-2xl font-bold text-white">
+                        {getGreeting("en")}
+                    </Text>
+                    <Text className="text-slate-400 text-sm mt-1">
+                        Track your caffeine intake
                     </Text>
                 </View>
 
-                {/* Second Row: Subtitle + mg info */}
-                <View className="flex-row justify-between items-center">
-                    <Text className="text-gray-400">Track your caffeine intake</Text>
-                    <Text className="text-sm text-gray-400">{currentCaffeine} mg active</Text>
+                {/* Right: Status */}
+                <View className="items-end">
+                    <Text className={`text-sm font-medium ${getStatusColor()}`}>
+                        {getStatusText()}
+                    </Text>
+                    <Text className="text-xs text-slate-500">
+                        {todaysCaffeine}mg active
+                    </Text>
                 </View>
-
-                {/*Caffeine ring*/}
-                <View className="flex items-center justify-center py-8">
-                    {/* Outer ring (simulated) */}
-                    <View className="w-36 h-36 rounded-full border-[9px] border-yellow-400 items-center justify-center">
-                        {/* Inner text */}
-                        <Text className="text-3xl font-bold text-white">{currentCaffeine}</Text>
-                        <Text className="text-xs text-gray-400 mt-1">mg caffeine</Text>
-                        <Text className="text-xs text-gray-500">of 400mg daily</Text>
-                    </View>
-                </View>
-
             </View>
 
-            {/* Bottom 2/3 - darker navy */}
-            <View className="flex-[0.7] bg-[#0b0f19] px-6 py-4"></View>
+            {/* CaffeineRing centered below */}
+            <View className="items-center">
+                <CaffeineRing
+                    percentage={caffeinePercentage}
+                    current={todaysCaffeine}
+                    limit={dailyLimit}
+                />
+            </View>
+
+            {/* Stats grid */}
+            <View className="flex-row flex-wrap justify-between gap-3">
+                {/* Card 1 */}
+                <Card className="bg-slate-800 border-slate-700 w-[30%]">
+                    <CardContent className="p-4">
+                        <View className="w-6 h-6 bg-cyan-500 rounded-lg mb-3" />
+                        <Text className="text-slate-400 text-xs mb-1">Today's Intake</Text>
+                        <Text className="text-xl font-bold text-white">{todaysCaffeine}mg</Text>
+                        <Text className="text-xs text-slate-500">{todaysDrinks.length} drinks</Text>
+                    </CardContent>
+                </Card>
+
+                {/* Card 2 */}
+                <Card className="bg-slate-800 border-slate-700 w-[30%]">
+                    <CardContent className="p-4">
+                        <View className="w-6 h-6 bg-pink-500 rounded-lg mb-3" />
+                        <Text className="text-slate-400 text-xs mb-1">Last Drink</Text>
+                        <Text className="text-xl font-bold text-white">{getTimeSinceLastDrink()}</Text>
+                        <Text className="text-xs text-slate-500">ago</Text>
+                    </CardContent>
+                </Card>
+
+                {/* Card 3 */}
+                <Card className="bg-slate-800 border-slate-700 w-[30%]">
+                    <CardContent className="p-4">
+                        <View className="w-6 h-6 bg-green-500 rounded-lg mb-3" />
+                        <Text className="text-slate-400 text-xs mb-1">Daily Limit</Text>
+                        <Text className="text-xl font-bold text-white">{Math.round(caffeinePercentage)}%</Text>
+                        <Text className="text-xs text-slate-500">{dailyLimit - todaysCaffeine}mg remaining</Text>
+                    </CardContent>
+                </Card>
+            </View>
+
 
         </View>
-
     );
+
+
 }
 
+// Optional: Constant for shared limit
+const DAILY_LIMIT = 400;
