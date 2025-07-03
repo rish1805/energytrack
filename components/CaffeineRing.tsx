@@ -16,12 +16,20 @@ const CaffeineRing = ({ percentage, current, limit }: CaffeineRingProps) => {
     const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
     return (
-        <View className="relative items-center justify-center" style={{ width: radius * 2, height: radius * 2 }}>
-            <Svg
-                height={radius * 2}
-                width={radius * 2}
-                style={{ position: "absolute", top: 0, left: 0, transform: [{ rotate: "-90deg" }] }}
-              >
+        <View className="relative"
+              style={{width: radius * 2,
+                  height: radius * 2,
+                  alignItems: "center",
+                  justifyContent: "center",}}
+        >
+        <Svg
+            height={radius * 2}
+            width={radius * 2}
+            style={{ position: "absolute",
+            top: 0,
+            left: 0,
+            transform: [{ rotate: "-90deg" }] }}
+        >
                 {/* Background circle */}
                 <Circle
                     stroke="#1e293b"
