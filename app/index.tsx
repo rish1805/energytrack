@@ -1,7 +1,7 @@
 import {Pressable, Text, View} from "react-native";
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Clock, TrendingUp, Settings } from 'lucide-react-native';
+import { Plus, Zap, Clock, TrendingUp, Settings, History } from 'lucide-react-native';
 import CaffeineRing from '@/components/CaffeineRing';
 import RecentDrinks from '@/components/RecentDrinks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -161,7 +161,9 @@ export default function Index() {
                 {/* Card 1 */}
                 <Card className="bg-slate-800 border-slate-700 w-[30%]">
                     <CardContent className="p-4">
-                        <View className="w-6 h-6 bg-cyan-500 rounded-lg mb-3" />
+                        <View className="w-6 h-6 bg-cyan-500 rounded-lg items-center justify-center mb-3">
+                            <Zap size={14} color="white" />
+                        </View>
                         <Text className="text-slate-400 text-xs mb-1">Today's Intake</Text>
                         <Text className="text-xl font-bold text-white">{todaysCaffeine}mg</Text>
                         <Text className="text-xs text-slate-500">{todaysDrinks.length} drinks</Text>
@@ -171,7 +173,9 @@ export default function Index() {
                 {/* Card 2 */}
                 <Card className="bg-slate-800 border-slate-700 w-[30%]">
                     <CardContent className="p-4">
-                        <View className="w-6 h-6 bg-pink-500 rounded-lg mb-3" />
+                        <View className="w-6 h-6 bg-pink-500 rounded-lg items-center justify-center mb-3">
+                            <History size={14} color="white" />
+                        </View>
                         <Text className="text-slate-400 text-xs mb-1">Last Drink</Text>
                         <Text className="text-xl font-bold text-white">{getTimeSinceLastDrink()}</Text>
                         <Text className="text-xs text-slate-500">ago</Text>
@@ -181,7 +185,9 @@ export default function Index() {
                 {/* Card 3 */}
                 <Card className="bg-slate-800 border-slate-700 w-[30%]">
                     <CardContent className="p-4">
-                        <View className="w-6 h-6 bg-green-500 rounded-lg mb-3" />
+                        <View className="w-6 h-6 bg-green-500 rounded-lg items-center justify-center mb-3">
+                            <TrendingUp size={14} color="white" />
+                        </View>
                         <Text className="text-slate-400 text-xs mb-1">Daily Limit</Text>
                         <Text className="text-xl font-bold text-white">{Math.round(caffeinePercentage)}%</Text>
                         <Text className="text-xs text-slate-500">{dailyLimit - todaysCaffeine}mg remaining</Text>
