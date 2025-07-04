@@ -122,7 +122,7 @@ export default function Index() {
     };
 
     return (
-        <View className="flex-1 bg-slate-900 px-4 pt-16 space-y-8">
+        <View className="flex-1 bg-slate-900 px-4 pt-16 space-y-12">
 
             {/* Header row */}
             <View className="flex-row justify-between items-start">
@@ -148,7 +148,7 @@ export default function Index() {
             </View>
 
             {/* CaffeineRing centered below */}
-            <View className="items-center">
+            <View className="items-center mt-9 mb-9">
                 <CaffeineRing
                     percentage={caffeinePercentage}
                     current={todaysCaffeine}
@@ -157,7 +157,7 @@ export default function Index() {
             </View>
 
             {/* Stats grid */}
-            <View className="flex-row flex-wrap justify-between gap-3">
+            <View className="flex-row flex-wrap justify-between gap-5">
                 {/* Card 1 */}
                 <Card className="bg-slate-800 border-slate-700 w-[30%]">
                     <CardContent className="p-4">
@@ -196,7 +196,7 @@ export default function Index() {
             </View>
 
             {/* Add Drink button */}
-            <View className="items-center mt-6">
+            <View className="items-center mt-10 mb-4">
                 <Pressable
                     onPress={() => setShowAddModal(true)}
                     className="bg-blue-600 px-8 py-3 rounded-full flex-row items-center"
@@ -210,7 +210,7 @@ export default function Index() {
             <RecentDrinks drinks={todaysDrinks} />
 
             {/* Settings Button */}
-            <View className="mt-8 mb-6 items-center">
+            <View className="mt-12 mb-10 items-center">
                 <Pressable className="bg-white px-6 py-2 rounded-xl shadow flex-row items-center gap-2">
                     <SettingsIcon className="text-slate-700" size={16} />
                     <Text className="text-slate-700 font-semibold">Settings</Text>
