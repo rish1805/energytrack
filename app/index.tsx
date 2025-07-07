@@ -6,6 +6,7 @@ import CaffeineRing from '@/components/CaffeineRing';
 import RecentDrinks from '@/components/RecentDrinks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Settings as SettingsIcon } from "lucide-react-native";
+import AddDrinkModal from "@/components/AddDrink";
 
 import { Link } from "expo-router";
 
@@ -217,6 +218,15 @@ export default function Index() {
                 </Pressable>
             </View>
 
+
+            <AddDrinkModal
+                open={showAddModal}
+                onClose={() => setShowAddModal(false)}
+                onAdd={(drink) => {
+                    setDrinks((prev) => [...prev, { ...drink, id: Date.now().toString() }]);
+                    setShowAddModal(false);
+                }}
+            />
 
         </View>
     );
