@@ -15,6 +15,11 @@ const CaffeineRing = ({ percentage, current, limit }: CaffeineRingProps) => {
     const circumference = normalizedRadius * 2 * Math.PI;
     const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
+    const getRingColor = () => {
+        if (percentage >= 100) return "#facc15"; // yellow-400
+        return "#3b82f6"; // blue-500 (default)
+    };
+
     return (
         <View className="relative"
               style={{width: radius * 2,
@@ -41,7 +46,7 @@ const CaffeineRing = ({ percentage, current, limit }: CaffeineRingProps) => {
                 />
                 {/* Progress circle */}
                 <Circle
-                    stroke="#3b82f6"
+                    stroke={getRingColor()}
                     fill="transparent"
                     strokeWidth={strokeWidth}
                     strokeDasharray={`${circumference} ${circumference}`}
