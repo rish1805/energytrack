@@ -34,7 +34,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
             <Card className="bg-slate-800 border-slate-700 mt-6 w-full">
                 <CardContent className="px-4 py-6">
                     <View className="flex-row items-center gap-2 mb-4">
-                        <Clock size={20} color="#60a5fa" className="mr-2" />
+                        <Clock size={20} color="white" className="mr-2" />
                         <Text className="text-white font-bold text-base">Recent Drinks</Text>
                     </View>
                     <View className="items-center justify-center min-h-[60px]">
@@ -54,21 +54,34 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
                 </View>
             </CardHeader>
             <CardContent className="pt-0">
-                <View className="space-y-3">
-                    {sortedDrinks.map((drink) => (
-                        <View key={drink.id} className="flex-row items-center justify-between p-3 bg-slate-700/50 rounded-lg">
-                            <View className="flex-row items-center gap-3 flex-1 min-w-0">
-                                <View className={`w-3 h-3 rounded-full flex-shrink-0 ${categoryColors[drink.category]}`} />
-                                <View className="min-w-0 flex-1">
-                                    <Text className="font-medium text-white text-sm" numberOfLines={1}>{drink.name}</Text>
-                                    <Text className="text-xs text-slate-400 capitalize">{drink.category}</Text>
+
+                <View className="space-y-10">
+                    {sortedDrinks.map((drink, index) => (
+                        <View
+                            key={drink.id} className={index !== sortedDrinks.length - 1 ? 'mb-1' : ''}>
+                            <View className="flex-row items-center justify-between px-4 py-3 bg-slate-700/50 rounded-xl border border-slate-600">
+                                <View className="flex-row items-center gap-3 flex-1 min-w-0">
+                                    <View className={`w-3 h-3 rounded-full flex-shrink-0 ${categoryColors[drink.category]}`}/>
+                                    <View className="min-w-0 flex-1">
+                                        <Text className="font-medium text-white text-sm" numberOfLines={1}>
+                                            {drink.name}
+                                        </Text>
+                                        <Text className="text-xs text-slate-400 capitalize">
+                                            {drink.category}
+                                        </Text>
+                                    </View>
                                 </View>
-                            </View>
-                            <View className="text-right flex-shrink-0 ml-2">
-                                <Text className="text-sm font-medium text-blue-400">{drink.caffeine}mg</Text>
-                                <Text className="text-xs text-slate-500">
-                                    {new Date(drink.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                </Text>
+
+                                <View className="text-right flex-shrink-0 ml-2">
+                                    <Text className="text-sm font-medium text-blue-400">
+                                        {drink.caffeine}mg
+                                    </Text>
+                                    <Text className="text-xs text-slate-500">
+                                        {new Date(drink.time).toLocaleTimeString([], {
+                                            hour: '2-digit',
+                                            minute: '2-digit',})}
+                                    </Text>
+                                </View>
                             </View>
                         </View>
                     ))}
