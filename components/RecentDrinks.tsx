@@ -48,10 +48,10 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
     return (
         <Card className="bg-slate-800 border-slate-700">
             <CardHeader className="pb-3">
-                <CardTitle className="text-lg flex-row items-center gap-2 text-white">
-                    <Clock className="w-5 h-5 text-blue-400" />
+                <View className="flex-row items-center gap-2">
+                    <Clock color= "white" className="w-5 h-5" />
                     <Text className="text-white text-lg font-semibold">Recent Drinks</Text>
-                </CardTitle>
+                </View>
             </CardHeader>
             <CardContent className="pt-0">
                 <View className="space-y-3">
