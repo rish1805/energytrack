@@ -100,8 +100,9 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
 
     return (
         <Modal visible={open} animationType="slide" transparent>
-            <View className="flex-1 justify-center items-center bg-black/60 px-4">
-                <View className="bg-slate-800 p-6 rounded-2xl w-full max-w-xl border border-slate-700 space-y-4">
+            {/* These 2 pressable's make it so we can tap outside the add drink overlay to exit it */}
+            <Pressable onPress={onClose} className="flex-1 justify-center items-center bg-black/60 px-4">
+                <Pressable onPress={() => {}} className="bg-slate-800 p-6 rounded-2xl w-full max-w-xl border border-slate-700 space-y-4">
 
                     {/* Header */}
                     <Text className="text-white text-lg font-bold text-center">Add Drink</Text>
@@ -206,8 +207,8 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                             <Text className="text-white font-semibold">Add Drink</Text>
                         </Pressable>
                     </View>
-                </View>
-            </View>
+                </Pressable>
+            </Pressable>
         </Modal>
     );
 };
