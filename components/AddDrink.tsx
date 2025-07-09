@@ -102,8 +102,10 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
         <Modal visible={open} animationType="slide" transparent>
             {/* These 2 pressable's make it so we can tap outside the add drink overlay to exit it */}
             <Pressable onPress={onClose} className="flex-1 justify-center items-center bg-black/60 px-4">
-                <Pressable onPress={() => {}} className="bg-slate-800 p-6 rounded-2xl w-full max-w-xl border border-slate-700 space-y-4">
-
+                <Pressable
+                    onPress={() => {}}
+                    className="bg-slate-800 p-6 rounded-2xl w-full max-w-xl max-h-[90%] h-[80%] border border-slate-700 space-y-4"
+                >
                     {/* Header */}
                     <Text className="text-white text-lg font-bold text-center">Add Drink</Text>
 
@@ -188,8 +190,8 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
 
                     {/* Action Buttons */}
                     <View className="flex-row justify-between pt-4">
-                        <Pressable onPress={onClose}>
-                            <Text className="text-slate-400">Cancel</Text>
+                        <Pressable onPress={onClose} className="px-4 py-2 rounded-full bg-red-600" >
+                            <Text className="text-white">Cancel</Text>
                         </Pressable>
                         <Pressable
                             onPress={handleSubmit}
@@ -197,14 +199,14 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                                 (activeTab === 'preset' && !selectedPreset) ||
                                 (activeTab === 'custom' && (!customName || !customCaffeine))
                                     ? 'bg-slate-600'
-                                    : 'bg-purple-600'
+                                    : 'bg-blue-600'
                             }`}
                             disabled={
                                 (activeTab === 'preset' && !selectedPreset) ||
                                 (activeTab === 'custom' && (!customName || !customCaffeine))
                             }
                         >
-                            <Text className="text-white font-semibold">Add Drink</Text>
+                            <Text className="text-white font-semibold">+ Add Drink</Text>
                         </Pressable>
                     </View>
                 </Pressable>
