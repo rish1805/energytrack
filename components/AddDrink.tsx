@@ -108,20 +108,21 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                         <Text className="text-white text-lg font-bold text-center">Add Drink</Text>
 
                         {/* Tabs */}
-                        <View className="flex-row justify-center space-x-8">
-                            <Pressable onPress={() => setActiveTab('preset')}
-                                className="px-4 min-w-[120px] items-center">
-                                <Text className={`text-sm font-medium ${activeTab === 'preset' ? 'text-white underline' : 'text-slate-400'}`}>
+                        <View className="bg-slate-700/50 p-1.5 rounded-full flex-row">
+                            <Pressable onPress={() => setActiveTab('preset')} className={`flex-1 h-10 rounded-full items-center justify-center transition-all duration-200 ${activeTab === 'preset' ? 'bg-blue-600' : 'bg-transparent'}`}>
+                                <Text className={`text-sm font-medium ${activeTab === 'preset' ? 'text-white' : 'text-slate-300'}`}>
                                     Preset Drinks
                                 </Text>
                             </Pressable>
-                            <Pressable
-                                onPress={() => setActiveTab('custom')} className="px-4 min-w-[120px] items-center">
-                                <Text className={`text-sm font-medium ${activeTab === 'custom' ? 'text-white underline' : 'text-slate-400'}`}>
+
+                            <Pressable onPress={() => setActiveTab('custom')} className={`flex-1 h-10 rounded-full items-center justify-center transition-all duration-200 ${activeTab === 'custom' ? 'bg-blue-600' : 'bg-transparent'}`}>
+                                <Text className={`text-sm font-medium ${activeTab === 'custom' ? 'text-white' : 'text-slate-300'}`}>
                                     Custom Drink
                                 </Text>
                             </Pressable>
                         </View>
+
+
 
 
                         {/* Time Input */}
