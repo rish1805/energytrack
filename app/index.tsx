@@ -197,7 +197,7 @@ export default function Index() {
             </View>
 
             {/* Add Drink button */}
-            <View className="items-center mt-10 mb-4">
+            <View className="items-center mt-5 mb-4">
                 <Pressable
                     onPress={() => setShowAddModal(true)}
                     className="bg-blue-600 px-8 py-3 rounded-full flex-row items-center"
