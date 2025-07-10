@@ -8,6 +8,7 @@ import {
     ScrollView,
     FlatList,
 } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 interface DrinkEntry {
     name: string;
@@ -182,16 +183,37 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                                             placeholderTextColor="#94a3b8"
                                         />
                                     </View>
+
                                     <View>
                                         <Text className="text-slate-400 mb-1">Category</Text>
-                                        <TextInput
-                                            value={customCategory}
-                                            onChangeText={(val) => setCustomCategory(val as DrinkEntry['category'])}
-                                            placeholder="e.g., energy, tea"
-                                            className="bg-slate-700 text-white px-3 py-2 rounded-lg"
-                                            placeholderTextColor="#94a3b8"
-                                        />
+                                        <View className="bg-slate-700 rounded-lg overflow-hidden">
+                                            <Picker
+                                                selectedValue={customCategory}
+                                                onValueChange={(val) => setCustomCategory(val as DrinkEntry['category'])}
+                                                dropdownIconColor="#94a3b8"
+                                                style={{
+                                                    color: 'white',
+                                                    paddingHorizontal: 12,
+                                                    paddingVertical: 10,
+                                                    height: 56,
+                                                    fontSize: 16,
+                                                }}
+                                                itemStyle={{
+                                                    fontSize: 16,
+                                                    color: 'white',
+                                                }}
+                                            >
+                                                <Picker.Item label="Select a category..." value="" enabled={false} />
+                                                <Picker.Item label="Energy" value="energy" />
+                                                <Picker.Item label="Coffee" value="coffee" />
+                                                <Picker.Item label="Pre-Workout" value="preworkout" />
+                                                <Picker.Item label="Soda" value="soda" />
+                                                <Picker.Item label="Tea" value="tea" />
+                                                <Picker.Item label="Other" value="other" />
+                                            </Picker>
+                                        </View>
                                     </View>
+
                                 </ScrollView>
                             )}
                         </View>
