@@ -8,7 +8,6 @@ import {
     ScrollView,
     FlatList,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 
 interface DrinkEntry {
     name: string;
@@ -24,24 +23,24 @@ interface AddDrinkModalProps {
 }
 
 const presetDrinks = [
-    { name: "Red Bull (8.4 oz)", caffeine: 80, category: 'energy' as const },
-    { name: "Monster Energy (16 oz)", caffeine: 160, category: 'energy' as const },
-    { name: "Bang Energy (16 oz)", caffeine: 300, category: 'energy' as const },
-    { name: "Reign (16 oz)", caffeine: 300, category: 'energy' as const },
-    { name: "Rockstar (16 oz)", caffeine: 160, category: 'energy' as const },
-    { name: "Espresso Shot", caffeine: 63, category: 'coffee' as const },
-    { name: "Coffee (8 oz)", caffeine: 95, category: 'coffee' as const },
-    { name: "Starbucks Grande (16 oz)", caffeine: 330, category: 'coffee' as const },
-    { name: "Cold Brew (12 oz)", caffeine: 200, category: 'coffee' as const },
-    { name: "C4 Pre-Workout", caffeine: 150, category: 'preworkout' as const },
-    { name: "Ghost Pre-Workout", caffeine: 202, category: 'preworkout' as const },
-    { name: "Pre Kaged", caffeine: 274, category: 'preworkout' as const },
-    { name: "Coca-Cola (12 oz)", caffeine: 34, category: 'soda' as const },
-    { name: "Mountain Dew (12 oz)", caffeine: 54, category: 'soda' as const },
-    { name: "Dr Pepper (12 oz)", caffeine: 41, category: 'soda' as const },
-    { name: "Green Tea (8 oz)", caffeine: 25, category: 'tea' as const },
-    { name: "Black Tea (8 oz)", caffeine: 47, category: 'tea' as const },
-    { name: "Matcha (8 oz)", caffeine: 70, category: 'tea' as const },
+    { name: "Red Bull (8.4 oz)", caffeine: 80, category: 'energy' },
+    { name: "Monster Energy (16 oz)", caffeine: 160, category: 'energy' },
+    { name: "Bang Energy (16 oz)", caffeine: 300, category: 'energy' },
+    { name: "Reign (16 oz)", caffeine: 300, category: 'energy' },
+    { name: "Rockstar (16 oz)", caffeine: 160, category: 'energy' },
+    { name: "Espresso Shot", caffeine: 63, category: 'coffee' },
+    { name: "Coffee (8 oz)", caffeine: 95, category: 'coffee' },
+    { name: "Starbucks Grande (16 oz)", caffeine: 330, category: 'coffee' },
+    { name: "Cold Brew (12 oz)", caffeine: 200, category: 'coffee' },
+    { name: "C4 Pre-Workout", caffeine: 150, category: 'preworkout' },
+    { name: "Ghost Pre-Workout", caffeine: 202, category: 'preworkout' },
+    { name: "Pre Kaged", caffeine: 274, category: 'preworkout' },
+    { name: "Coca-Cola (12 oz)", caffeine: 34, category: 'soda' },
+    { name: "Mountain Dew (12 oz)", caffeine: 54, category: 'soda' },
+    { name: "Dr Pepper (12 oz)", caffeine: 41, category: 'soda' },
+    { name: "Green Tea (8 oz)", caffeine: 25, category: 'tea' },
+    { name: "Black Tea (8 oz)", caffeine: 47, category: 'tea' },
+    { name: "Matcha (8 oz)", caffeine: 70, category: 'tea' },
 ];
 
 const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
@@ -66,7 +65,7 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
             onAdd({
                 name: selectedPreset.name,
                 caffeine: selectedPreset.caffeine,
-                category: selectedPreset.category,
+                category: selectedPreset.category as DrinkEntry['category'],
                 time: drinkTime,
             });
         } else if (activeTab === 'custom' && customName && customCaffeine) {
@@ -96,178 +95,171 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
     };
 
     return (
-        <Modal visible={open} animationType="slide" transparent>
-            <Pressable
-                onPress={onClose}
-                className="absolute inset-0 bg-black/60 justify-center items-center px-4"
-            >
-                <Pressable
-                    onPress={() => {}}
-                    className="bg-slate-800 p-6 rounded-2xl w-full max-w-xl h-[85%] border border-slate-700"
-                >
-                    <View className="flex-1 justify-between space-y-4">
-                        {/* Header */}
-                        <Text className="text-white text-lg font-bold text-center">Add Drink</Text>
+        <>
+            {/* Main Modal */}
+            <Modal visible={open} animationType="slide" transparent>
+                <View className="flex-1 bg-black/60 justify-center items-center px-4">
+                    <View className="bg-slate-800 p-6 rounded-2xl w-full max-w-xl h-[85%] border border-slate-700">
+                        <View className="flex-1 justify-between space-y-4">
+                            <Text className="text-white text-lg font-bold text-center">Add Drink</Text>
 
-                        {/* Tabs */}
-                        <View className="bg-slate-700/50 p-1.5 rounded-full flex-row">
-                            <Pressable onPress={() => setActiveTab('preset')} className={`flex-1 h-10 rounded-full items-center justify-center transition-all duration-200 ${activeTab === 'preset' ? 'bg-blue-600' : 'bg-transparent'}`}>
-                                <Text className={`text-sm font-medium ${activeTab === 'preset' ? 'text-white' : 'text-slate-300'}`}>
-                                    Preset Drinks
-                                </Text>
-                            </Pressable>
-
-                            <Pressable onPress={() => setActiveTab('custom')} className={`flex-1 h-10 rounded-full items-center justify-center transition-all duration-200 ${activeTab === 'custom' ? 'bg-blue-600' : 'bg-transparent'}`}>
-                                <Text className={`text-sm font-medium ${activeTab === 'custom' ? 'text-white' : 'text-slate-300'}`}>
-                                    Custom Drink
-                                </Text>
-                            </Pressable>
-                        </View>
-
-
-
-
-                        {/* Time Input */}
-                        <View className="mb-4">
-                            <Text className="text-slate-400 mb-1">Time</Text>
-                            <TextInput
-                                value={time}
-                                onChangeText={setTime}
-                                placeholder="HH:mm"
-                                className="bg-slate-700 text-white px-3 py-2 rounded-lg"
-                                placeholderTextColor="#94a3b8"
-                            />
-                        </View>
-
-                        {/* Preset or Custom Input */}
-                        <View className="flex-1">
-                            {activeTab === 'preset' ? (
-                                <FlatList
-                                    data={presetDrinks}
-                                    keyExtractor={(item) => item.name}
-                                    className="flex-1"
-                                    renderItem={({ item }) => (
-                                        <Pressable
-                                            onPress={() => handlePresetSelect(item)}
-                                            className={`rounded-lg border px-4 py-3 mb-2 ${
-                                                selectedPreset?.name === item.name
-                                                    ? 'border-purple-500 bg-purple-600/20'
-                                                    : 'border-slate-600'
-                                            } ${categoryColors[item.category]}`}
-                                        >
-                                            <Text className="text-white font-medium">{item.name}</Text>
-                                            <Text className="text-slate-300 text-xs">{item.caffeine} mg caffeine</Text>
-                                            <Text className="text-slate-400 text-xs capitalize">{item.category}</Text>
-                                        </Pressable>
-                                    )}
-                                />
-                            ) : (
-                                <ScrollView className="space-y-3 flex-1">
-                                    <View>
-                                        <Text className="text-slate-400 mb-1">Drink Name</Text>
-                                        <TextInput
-                                            value={customName}
-                                            onChangeText={setCustomName}
-                                            placeholder="e.g., My Custom Energy Drink"
-                                            className="bg-slate-700 text-white px-3 py-2 rounded-lg"
-                                            placeholderTextColor="#94a3b8"
-                                        />
-                                    </View>
-                                    <View>
-                                        <Text className="text-slate-400 mb-1">Caffeine (mg)</Text>
-                                        <TextInput
-                                            keyboardType="numeric"
-                                            value={customCaffeine}
-                                            onChangeText={setCustomCaffeine}
-                                            placeholder="e.g., 150"
-                                            className="bg-slate-700 text-white px-3 py-2 rounded-lg"
-                                            placeholderTextColor="#94a3b8"
-                                        />
-                                    </View>
-
-                                    <View>
-                                        <Text className="text-slate-400 mb-1">Category</Text>
-                                        <Pressable
-                                            onPress={() => setCategoryOverlayVisible(true)}
-                                            className="bg-slate-700 rounded-lg px-3 py-3"
-                                        >
-                                            <Text className={`text-white ${!customCategory ? 'text-slate-400' : ''}`}>
-                                                {customCategory ? customCategory.charAt(0).toUpperCase() + customCategory.slice(1) : 'Select a category...'}
-                                            </Text>
-                                        </Pressable>
-                                    </View>
-
-                                </ScrollView>
-                            )}
-                        </View>
-
-                        {/* Action Buttons */}
-                        <View className="flex-row justify-between pt-2">
-                            <Pressable onPress={onClose} className="px-4 py-2 rounded-full bg-red-600">
-                                <Text className="text-white">Cancel</Text>
-                            </Pressable>
-                            <Pressable
-                                onPress={handleSubmit}
-                                className={`px-4 py-2 rounded-full ${
-                                    (activeTab === 'preset' && !selectedPreset) ||
-                                    (activeTab === 'custom' && (!customName || !customCaffeine))
-                                        ? 'bg-slate-600'
-                                        : 'bg-blue-600'
-                                }`}
-                                disabled={
-                                    (activeTab === 'preset' && !selectedPreset) ||
-                                    (activeTab === 'custom' && (!customName || !customCaffeine))
-                                }
-                            >
-                                <Text className="text-white font-semibold">+ Add Drink</Text>
-                            </Pressable>
-                        </View>
-
-                        <Modal visible={categoryOverlayVisible} animationType="slide" transparent>
-                            <Pressable
-                                onPress={() => setCategoryOverlayVisible(false)}
-                                className="absolute inset-0 bg-black/50 justify-center items-center px-6"
-                            >
-                                <View className="bg-slate-800 w-[90%] max-w-md rounded-2xl p-5 space-y-3">
-                                    <Text className="text-white text-lg font-semibold text-center mb-2">
-                                        Select a Category
+                            <View className="bg-slate-700/50 p-1.5 rounded-full flex-row">
+                                <Pressable
+                                    onPress={() => setActiveTab('preset')}
+                                    className={`flex-1 h-10 rounded-full items-center justify-center ${
+                                        activeTab === 'preset' ? 'bg-blue-600' : 'bg-transparent'
+                                    }`}
+                                >
+                                    <Text className={`text-sm font-medium ${activeTab === 'preset' ? 'text-white' : 'text-slate-300'}`}>
+                                        Preset Drinks
                                     </Text>
+                                </Pressable>
 
-                                    <ScrollView className="space-y-2" showsVerticalScrollIndicator={false}>
-                                        {['energy', 'coffee', 'preworkout', 'soda', 'tea', 'other'].map((cat) => (
+                                <Pressable
+                                    onPress={() => setActiveTab('custom')}
+                                    className={`flex-1 h-10 rounded-full items-center justify-center ${
+                                        activeTab === 'custom' ? 'bg-blue-600' : 'bg-transparent'
+                                    }`}
+                                >
+                                    <Text className={`text-sm font-medium ${activeTab === 'custom' ? 'text-white' : 'text-slate-300'}`}>
+                                        Custom Drink
+                                    </Text>
+                                </Pressable>
+                            </View>
+
+                            <View>
+                                <Text className="text-slate-400 mb-1">Time</Text>
+                                <TextInput
+                                    value={time}
+                                    onChangeText={setTime}
+                                    placeholder="HH:mm"
+                                    className="bg-slate-700 text-white px-3 py-2 rounded-lg"
+                                    placeholderTextColor="#94a3b8"
+                                />
+                            </View>
+
+                            <View className="flex-1">
+                                {activeTab === 'preset' ? (
+                                    <FlatList
+                                        data={presetDrinks}
+                                        keyExtractor={(item) => item.name}
+                                        className="flex-1"
+                                        renderItem={({ item }) => (
                                             <Pressable
-                                                key={cat}
-                                                onPress={() => {
-                                                    setCustomCategory(cat as DrinkEntry['category']);
-                                                    setCategoryOverlayVisible(false);
-                                                }}
-                                                className={`p-3 rounded-lg ${
-                                                    cat === 'energy'
-                                                        ? 'bg-red-600/20'
-                                                        : cat === 'coffee'
-                                                            ? 'bg-amber-600/20'
-                                                            : cat === 'preworkout'
-                                                                ? 'bg-purple-600/20'
-                                                                : cat === 'soda'
-                                                                    ? 'bg-blue-600/20'
-                                                                    : cat === 'tea'
-                                                                        ? 'bg-green-600/20'
-                                                                        : 'bg-slate-600/20'
-                                                }`}
+                                                onPress={() => handlePresetSelect(item)}
+                                                className={`rounded-lg border px-4 py-3 mb-2 ${
+                                                    selectedPreset?.name === item.name
+                                                        ? 'border-purple-500 bg-purple-600/20'
+                                                        : 'border-slate-600'
+                                                } ${categoryColors[item.category as keyof typeof categoryColors]}`}
                                             >
-                                                <Text className="text-white capitalize text-center">{cat}</Text>
+                                                <Text className="text-white font-medium">{item.name}</Text>
+                                                <Text className="text-slate-300 text-xs">{item.caffeine} mg caffeine</Text>
+                                                <Text className="text-slate-400 text-xs capitalize">{item.category}</Text>
                                             </Pressable>
-                                        ))}
+                                        )}
+                                    />
+                                ) : (
+                                    <ScrollView className="space-y-3 flex-1">
+                                        <View>
+                                            <Text className="text-slate-400 mb-1">Drink Name</Text>
+                                            <TextInput
+                                                value={customName}
+                                                onChangeText={setCustomName}
+                                                placeholder="e.g., My Custom Energy Drink"
+                                                className="bg-slate-700 text-white px-3 py-2 rounded-lg"
+                                                placeholderTextColor="#94a3b8"
+                                            />
+                                        </View>
+                                        <View>
+                                            <Text className="text-slate-400 mb-1">Caffeine (mg)</Text>
+                                            <TextInput
+                                                keyboardType="numeric"
+                                                value={customCaffeine}
+                                                onChangeText={setCustomCaffeine}
+                                                placeholder="e.g., 150"
+                                                className="bg-slate-700 text-white px-3 py-2 rounded-lg"
+                                                placeholderTextColor="#94a3b8"
+                                            />
+                                        </View>
+                                        <View>
+                                            <Text className="text-slate-400 mb-1">Category</Text>
+                                            <Pressable
+                                                onPress={() => setCategoryOverlayVisible(true)}
+                                                className="bg-slate-700 rounded-lg px-3 py-3"
+                                            >
+                                                <Text className="text-white capitalize text-center">{customCategory}</Text>
+                                            </Pressable>
+                                        </View>
                                     </ScrollView>
-                                </View>
-                            </Pressable>
+                                )}
+                            </View>
 
-                        </Modal>
+                            <View className="flex-row justify-between pt-2">
+                                <Pressable onPress={onClose} className="px-4 py-2 rounded-full bg-red-600">
+                                    <Text className="text-white">Cancel</Text>
+                                </Pressable>
+                                <Pressable
+                                    onPress={handleSubmit}
+                                    className={`px-4 py-2 rounded-full ${
+                                        (activeTab === 'preset' && !selectedPreset) ||
+                                        (activeTab === 'custom' && (!customName || !customCaffeine))
+                                            ? 'bg-slate-600'
+                                            : 'bg-blue-600'
+                                    }`}
+                                    disabled={
+                                        (activeTab === 'preset' && !selectedPreset) ||
+                                        (activeTab === 'custom' && (!customName || !customCaffeine))
+                                    }
+                                >
+                                    <Text className="text-white font-semibold">+ Add Drink</Text>
+                                </Pressable>
+                            </View>
+                        </View>
                     </View>
-                </Pressable>
-            </Pressable>
-        </Modal>
+                </View>
+            </Modal>
 
+            {/* Category Selector Modal - separate */}
+            <Modal visible={categoryOverlayVisible} animationType="slide" transparent statusBarTranslucent>
+                <View className="flex-1 bg-black/50 justify-end">
+                    <View className="bg-slate-800 w-full rounded-t-2xl px-6 pt-5 pb-8 max-h-[75%]">
+                        <Text className="text-white text-lg font-semibold text-center mb-4">
+                            Select a Category
+                        </Text>
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}
+                            contentContainerStyle={{ gap: 8, paddingBottom: 10 }}
+                        >
+                            {['energy', 'coffee', 'preworkout', 'soda', 'tea', 'other'].map((cat) => (
+                                <Pressable
+                                    key={cat}
+                                    onPress={() => {
+                                        setCustomCategory(cat as DrinkEntry['category']);
+                                        setCategoryOverlayVisible(false);
+                                    }}
+                                    className={`p-3 rounded-lg ${
+                                        cat === 'energy'
+                                            ? 'bg-red-600/20'
+                                            : cat === 'coffee'
+                                                ? 'bg-amber-600/20'
+                                                : cat === 'preworkout'
+                                                    ? 'bg-purple-600/20'
+                                                    : cat === 'soda'
+                                                        ? 'bg-blue-600/20'
+                                                        : cat === 'tea'
+                                                            ? 'bg-green-600/20'
+                                                            : 'bg-slate-600/20'
+                                    }`}
+                                >
+                                    <Text className="text-white capitalize text-center">{cat}</Text>
+                                </Pressable>
+                            ))}
+                        </ScrollView>
+                    </View>
+                </View>
+            </Modal>
+        </>
     );
 };
 
