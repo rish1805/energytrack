@@ -51,6 +51,7 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
     const [customCategory, setCustomCategory] = useState<DrinkEntry['category']>('other');
     const [time, setTime] = useState(new Date().toTimeString().slice(0, 5));
     const [activeTab, setActiveTab] = useState<'preset' | 'custom'>('preset');
+    const [categoryOverlayVisible, setCategoryOverlayVisible] = useState(false);
 
     const handlePresetSelect = (drink: typeof presetDrinks[0]) => {
         setSelectedPreset(drink);
@@ -186,32 +187,14 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
 
                                     <View>
                                         <Text className="text-slate-400 mb-1">Category</Text>
-                                        <View className="bg-slate-700 rounded-lg overflow-hidden">
-                                            <Picker
-                                                selectedValue={customCategory}
-                                                onValueChange={(val) => setCustomCategory(val as DrinkEntry['category'])}
-                                                dropdownIconColor="#94a3b8"
-                                                style={{
-                                                    color: 'white',
-                                                    paddingHorizontal: 12,
-                                                    paddingVertical: 10,
-                                                    height: 56,
-                                                    fontSize: 16,
-                                                }}
-                                                itemStyle={{
-                                                    fontSize: 16,
-                                                    color: 'white',
-                                                }}
-                                            >
-                                                <Picker.Item label="Select a category..." value="" enabled={false} />
-                                                <Picker.Item label="Energy" value="energy" />
-                                                <Picker.Item label="Coffee" value="coffee" />
-                                                <Picker.Item label="Pre-Workout" value="preworkout" />
-                                                <Picker.Item label="Soda" value="soda" />
-                                                <Picker.Item label="Tea" value="tea" />
-                                                <Picker.Item label="Other" value="other" />
-                                            </Picker>
-                                        </View>
+                                        <Pressable
+                                            onPress={() => setCategoryOverlayVisible(true)}
+                                            className="bg-slate-700 rounded-lg px-3 py-3"
+                                        >
+                                            <Text className={`text-white ${!customCategory ? 'text-slate-400' : ''}`}>
+                                                {customCategory ? customCategory.charAt(0).toUpperCase() + customCategory.slice(1) : 'Select a category...'}
+                                            </Text>
+                                        </Pressable>
                                     </View>
 
                                 </ScrollView>
@@ -239,10 +222,39 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                                 <Text className="text-white font-semibold">+ Add Drink</Text>
                             </Pressable>
                         </View>
+
+                        <Modal visible={categoryOverlayVisible} animationType="slide" transparent>
+                            <Pressable onPress={() => setCategoryOverlayVisible(false)}
+                                className="absolute inset-0 bg-black/50 justify-center items-center px-6">
+                                <Pressable onPress={() => {}}
+                                    className="bg-slate-800 w-full max-w-sm rounded-2xl p-5 space-y-3">
+                                    <Text className="text-white text-lg font-semibold text-center mb-3">Select a Category</Text>
+
+                                    {['energy', 'coffee', 'preworkout', 'soda', 'tea', 'other'].map((cat) => (
+                                        <Pressable
+                                            key={cat}
+                                            onPress={() => {
+                                                setCustomCategory(cat as DrinkEntry['category']);
+                                                setCategoryOverlayVisible(false);
+                                            }}
+                                            className={`p-3 rounded-lg ${
+                                                cat === 'energy' ? 'bg-red-600/20' :
+                                                    cat === 'coffee' ? 'bg-amber-600/20' :
+                                                        cat === 'preworkout' ? 'bg-purple-600/20' :
+                                                            cat === 'soda' ? 'bg-blue-600/20' :
+                                                                cat === 'tea' ? 'bg-green-600/20' :
+                                                                    'bg-slate-600/20'}`}>
+                                            <Text className="text-white capitalize text-center">{cat}</Text>
+                                        </Pressable>
+                                    ))}
+                                </Pressable>
+                            </Pressable>
+                        </Modal>
                     </View>
                 </Pressable>
             </Pressable>
         </Modal>
+
     );
 };
 
