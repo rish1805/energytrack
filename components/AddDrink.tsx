@@ -224,31 +224,44 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                         </View>
 
                         <Modal visible={categoryOverlayVisible} animationType="slide" transparent>
-                            <Pressable onPress={() => setCategoryOverlayVisible(false)}
-                                className="absolute inset-0 bg-black/50 justify-center items-center px-6">
-                                <Pressable onPress={() => {}}
-                                    className="bg-slate-800 w-full max-w-sm rounded-2xl p-5 space-y-3">
-                                    <Text className="text-white text-lg font-semibold text-center mb-3">Select a Category</Text>
+                            <Pressable
+                                onPress={() => setCategoryOverlayVisible(false)}
+                                className="absolute inset-0 bg-black/50 justify-center items-center px-6"
+                            >
+                                <View className="bg-slate-800 w-[90%] max-w-md rounded-2xl p-5 space-y-3">
+                                    <Text className="text-white text-lg font-semibold text-center mb-2">
+                                        Select a Category
+                                    </Text>
 
-                                    {['energy', 'coffee', 'preworkout', 'soda', 'tea', 'other'].map((cat) => (
-                                        <Pressable
-                                            key={cat}
-                                            onPress={() => {
-                                                setCustomCategory(cat as DrinkEntry['category']);
-                                                setCategoryOverlayVisible(false);
-                                            }}
-                                            className={`p-3 rounded-lg ${
-                                                cat === 'energy' ? 'bg-red-600/20' :
-                                                    cat === 'coffee' ? 'bg-amber-600/20' :
-                                                        cat === 'preworkout' ? 'bg-purple-600/20' :
-                                                            cat === 'soda' ? 'bg-blue-600/20' :
-                                                                cat === 'tea' ? 'bg-green-600/20' :
-                                                                    'bg-slate-600/20'}`}>
-                                            <Text className="text-white capitalize text-center">{cat}</Text>
-                                        </Pressable>
-                                    ))}
-                                </Pressable>
+                                    <ScrollView className="space-y-2" showsVerticalScrollIndicator={false}>
+                                        {['energy', 'coffee', 'preworkout', 'soda', 'tea', 'other'].map((cat) => (
+                                            <Pressable
+                                                key={cat}
+                                                onPress={() => {
+                                                    setCustomCategory(cat as DrinkEntry['category']);
+                                                    setCategoryOverlayVisible(false);
+                                                }}
+                                                className={`p-3 rounded-lg ${
+                                                    cat === 'energy'
+                                                        ? 'bg-red-600/20'
+                                                        : cat === 'coffee'
+                                                            ? 'bg-amber-600/20'
+                                                            : cat === 'preworkout'
+                                                                ? 'bg-purple-600/20'
+                                                                : cat === 'soda'
+                                                                    ? 'bg-blue-600/20'
+                                                                    : cat === 'tea'
+                                                                        ? 'bg-green-600/20'
+                                                                        : 'bg-slate-600/20'
+                                                }`}
+                                            >
+                                                <Text className="text-white capitalize text-center">{cat}</Text>
+                                            </Pressable>
+                                        ))}
+                                    </ScrollView>
+                                </View>
                             </Pressable>
+
                         </Modal>
                     </View>
                 </Pressable>
