@@ -222,9 +222,15 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
 
             {/* Category Selector Modal - separate */}
             <Modal visible={categoryOverlayVisible} animationType="slide" transparent statusBarTranslucent>
-                <View className="flex-1 bg-black/50 justify-end">
-                    <View className="bg-slate-800 w-full rounded-t-2xl px-6 pt-5 pb-8 max-h-[75%]">
-                        <Text className="text-white text-lg font-semibold text-center mb-4">
+                <Pressable
+                    onPress={() => setCategoryOverlayVisible(false)}
+                    className="flex-1 bg-black/50 justify-end"
+                >
+                    <Pressable
+                        onPress={() => {}}
+                        className="bg-slate-800 w-full rounded-t-2xl px-6 pt-5 pb-8 max-h-[75%]"
+                    >
+                        <Text className="text-white text-lg font-semibold mb-4">
                             Select a Category
                         </Text>
                         <ScrollView
@@ -256,8 +262,8 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                                 </Pressable>
                             ))}
                         </ScrollView>
-                    </View>
-                </View>
+                    </Pressable>
+                </Pressable>
             </Modal>
         </>
     );
