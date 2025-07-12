@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock } from 'lucide-react-native';
+import { useRouter } from 'expo-router';
 
 interface DrinkEntry {
     id: string;
@@ -15,6 +16,8 @@ interface RecentDrinksProps {
     drinks: DrinkEntry[];
 }
 
+const router = useRouter();
+
 const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
     const categoryColors = {
         energy: 'bg-red-500',
@@ -25,9 +28,10 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
         other: 'bg-gray-500',
     };
 
-    const sortedDrinks = drinks
+    const sortedDrinks = [...drinks]
         .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
-        .slice(0, 5);
+        .slice(0, 3);
+
 
     if (sortedDrinks.length === 0) {
         return (
@@ -85,6 +89,17 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
                             </View>
                         </View>
                     ))}
+
+                    <View className="items-end mt-4 px-4">
+                        <Text
+                            onPress={() => router.push('/tabs/all-drinks')}
+                            className="text-blue-400 text-sm font-medium"
+                        >
+                            See all drinks →
+                        </Text>
+
+                    </View>
+
                 </View>
             </CardContent>
         </Card>
