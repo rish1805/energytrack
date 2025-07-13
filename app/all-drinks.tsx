@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Pressable } from 'react-native';
 import { Stack } from 'expo-router';
 import { useNavigation } from '@react-navigation/native';
-import { ArrowLeft } from 'lucide-react-native';
+import { ArrowLeft, Trash2 } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface DrinkEntry {
@@ -65,15 +65,27 @@ export default function AllDrinksScreen() {
                     renderItem={({ item }) => {
                         return (
                             <View
-                                className={`mb-3 px-4 py-3 rounded-xl ${
+                                className={`mb-3 px-4 py-3 rounded-xl flex-row justify-between items-center ${
                                     categoryColors[item.category as keyof typeof categoryColors] ?? 'bg-slate-700'
                                 }`}
                             >
-                                <Text className="text-white text-base font-medium">{item.name}</Text>
-                                <Text className="text-slate-400 text-xs">{item.category} • {item.caffeine}mg</Text>
-                                <Text className="text-slate-500 text-xs">
-                                    {new Date(item.time).toLocaleString()}
-                                </Text>
+                                {/* Left: Stacked text */}
+                                <View>
+                                    <Text className="text-white text-base font-medium">{item.name}</Text>
+                                    <Text className="text-slate-400 text-xs">{item.category} • {item.caffeine}mg</Text>
+                                    <Text className="text-slate-500 text-xs">
+                                        {new Date(item.time).toLocaleString()}
+                                    </Text>
+                                </View>
+
+                                {/* Right: Trash icon */}
+                                <View className="flex-row justify-end">
+                                    <Pressable className="p-2">
+                                        <Text>
+                                            <Trash2 size={20} color="#f87171" />
+                                        </Text>
+                                    </Pressable>
+                                </View>
                             </View>
                         );
                     }}
