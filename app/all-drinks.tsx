@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import { useNavigation } from '@react-navigation/native';
 import { ArrowLeft, Trash2 } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDrinks } from "@/components/DrinksProvider";
 
 interface DrinkEntry {
     id: string;
@@ -15,7 +16,7 @@ interface DrinkEntry {
 
 export default function AllDrinksScreen() {
     const navigation = useNavigation();
-    const [drinks, setDrinks] = useState<DrinkEntry[]>([]);
+    const { drinks, deleteDrink, refreshDrinks } = useDrinks();
 
     const handleDeleteDrink = (id: string) => {
         Alert.alert(
@@ -26,38 +27,13 @@ export default function AllDrinksScreen() {
                 {
                     text: "Delete",
                     style: "destructive",
-                    onPress: async () => {
-                        const updatedDrinks = drinks.filter((drink) => drink.id !== id);
-                        setDrinks(updatedDrinks);
-
-                        try {
-                            await AsyncStorage.setItem("caffeineTracker", JSON.stringify(updatedDrinks));
-                        } catch (e) {
-                            console.error("Failed to save updated drinks:", e);
-                        }
+                    onPress: () => {
+                        deleteDrink(id); // Uses context
                     },
                 },
             ]
         );
     };
-
-
-    useEffect(() => {
-        const loadDrinks = async () => {
-            try {
-                const stored = await AsyncStorage.getItem("caffeineTracker");
-                if (stored) {
-                    const parsed = JSON.parse(stored);
-                    setDrinks(parsed);
-                }
-            } catch (e) {
-                console.error("Failed to load drinks:", e);
-            }
-        };
-
-        loadDrinks();
-
-    }, []);
 
     const categoryColors = {
         energy: 'bg-red-500/20',
