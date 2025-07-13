@@ -33,7 +33,11 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
         .slice(0, 3);
 
 
-    if (sortedDrinks.length === 0) {
+    {/* if (sortedDrinks.length === 0) {
+
+    controls if "See drink history" is visible or not,
+    currently set so that it is visible even if user has not had any drinks today.
+
         return (
             <Card className="bg-slate-800 border-slate-700 mt-6 w-full">
                 <CardContent className="px-4 py-6">
@@ -48,7 +52,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
             </Card>
         );
     }
-
+    */}
     return (
         <Card className="bg-slate-800 border-slate-700">
             <CardHeader className="pb-3">
@@ -95,7 +99,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
                             onPress={() => router.push('/all-drinks')}
                             className="text-blue-400 text-sm font-medium"
                         >
-                            See all drinks →
+                            See drink history →
                         </Text>
 
                     </View>
