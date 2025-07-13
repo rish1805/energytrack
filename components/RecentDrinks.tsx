@@ -92,7 +92,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
 
                     <View className="items-end mt-4 px-4">
                         <Text
-                            onPress={() => router.push('/tabs/all-drinks')}
+                            onPress={() => router.push('/all-drinks')}
                             className="text-blue-400 text-sm font-medium"
                         >
                             See all drinks →
