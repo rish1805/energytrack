@@ -4,10 +4,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Zap, TrendingUp, Settings, History } from 'lucide-react-native';
 import CaffeineRing from '@/components/CaffeineRing';
 import RecentDrinks from '@/components/RecentDrinks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Settings as SettingsIcon } from "lucide-react-native";
 import AddDrinkModal from "@/components/AddDrink";
 import { useRouter, Stack } from "expo-router";
+import { useDrinks } from "@/components/DrinksProvider";
 
 // Greeting logic
 function getGreeting(locale: "en" | "da" = "en") {
@@ -42,7 +42,7 @@ interface DrinkEntry {
 // Main page component
 export default function Index() {
     const router = useRouter();
-    const [drinks, setDrinks] = useState<DrinkEntry[]>([]);
+    const { drinks, addDrink } = useDrinks();
     const [dailyLimit, setDailyLimit] = useState(400);
     const [showAddModal, setShowAddModal] = useState(false);
     const [currentTime, setCurrentTime] = useState(new Date());
@@ -53,29 +53,6 @@ export default function Index() {
         }, 60000);
         return () => clearInterval(timer);
     }, []);
-
-    useEffect(() => {
-        const loadDrinks = async () => {
-            try {
-                const saved = await AsyncStorage.getItem("caffeineTracker");
-                if (saved) setDrinks(JSON.parse(saved));
-            } catch (e) {
-                console.error("Failed to load drinks", e);
-            }
-        };
-        loadDrinks();
-    }, []);
-
-    useEffect(() => {
-        const saveDrinks = async () => {
-            try {
-                await AsyncStorage.setItem("caffeineTracker", JSON.stringify(drinks));
-            } catch (e) {
-                console.error("Failed to save drinks", e);
-            }
-        };
-        saveDrinks();
-    }, [drinks]);
 
     const today = new Date();
     const todaysDrinks = drinks.filter((drink) => {
@@ -202,7 +179,13 @@ export default function Index() {
                     </View>
 
                     {/* Recent Drinks */}
-                    <RecentDrinks drinks={todaysDrinks} />
+                    <RecentDrinks
+                        drinks={todaysDrinks.map((drink) => ({
+                            ...drink,
+                            time: new Date(drink.time),
+                        }))}
+                    />
+
 
                     {/* Settings Button */}
                     <View className="mt-12 mb-10 items-center">
@@ -219,7 +202,7 @@ export default function Index() {
                         open={showAddModal}
                         onClose={() => setShowAddModal(false)}
                         onAdd={(drink) => {
-                            setDrinks((prev) => [...prev, { ...drink, id: Date.now().toString() }]);
+                            addDrink({ ...drink, id: Date.now().toString() });
                             setShowAddModal(false);
                         }}
                     />
