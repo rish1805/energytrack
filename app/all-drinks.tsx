@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Pressable } from 'react-native';
+import { View, Text, FlatList, Pressable, Alert } from 'react-native';
 import { Stack } from 'expo-router';
 import { useNavigation } from '@react-navigation/native';
 import { ArrowLeft, Trash2 } from 'lucide-react-native';
@@ -17,6 +17,31 @@ export default function AllDrinksScreen() {
     const navigation = useNavigation();
     const [drinks, setDrinks] = useState<DrinkEntry[]>([]);
 
+    const handleDeleteDrink = (id: string) => {
+        Alert.alert(
+            "Delete Drink",
+            "Are you sure you want to remove this drink?",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Delete",
+                    style: "destructive",
+                    onPress: async () => {
+                        const updatedDrinks = drinks.filter((drink) => drink.id !== id);
+                        setDrinks(updatedDrinks);
+
+                        try {
+                            await AsyncStorage.setItem("caffeineTracker", JSON.stringify(updatedDrinks));
+                        } catch (e) {
+                            console.error("Failed to save updated drinks:", e);
+                        }
+                    },
+                },
+            ]
+        );
+    };
+
+
     useEffect(() => {
         const loadDrinks = async () => {
             try {
@@ -31,6 +56,7 @@ export default function AllDrinksScreen() {
         };
 
         loadDrinks();
+
     }, []);
 
     const categoryColors = {
@@ -80,7 +106,7 @@ export default function AllDrinksScreen() {
 
                                 {/* Right: Trash icon */}
                                 <View className="flex-row justify-end">
-                                    <Pressable className="p-2">
+                                    <Pressable className="p-2" onPress={() => handleDeleteDrink(item.id)}>
                                         <Text>
                                             <Trash2 size={20} color="#f87171" />
                                         </Text>
