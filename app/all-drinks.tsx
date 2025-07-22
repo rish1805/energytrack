@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, FlatList, Pressable, Alert } from 'react-native';
 import { Stack } from 'expo-router';
 import { useNavigation } from '@react-navigation/native';
 import { ArrowLeft, Trash2 } from 'lucide-react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDrinks } from "@/components/DrinksProvider";
 
 interface DrinkEntry {
@@ -61,17 +60,25 @@ export default function AllDrinksScreen() {
 
                 <Text className="text-2xl font-bold text-white mb-4">All Drinks</Text>
 
-                <FlatList
-                    data={[...drinks].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => {
-                        return (
+                {/* Check if drinks logged = 0, if ture displays the "No drinks logged" message */}
+                {drinks.length === 0 ? (
+                    <View className="mb-3 px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 flex-row justify-between items-center">
+                        <View>
+                            <Text className="text-white text-base font-medium">No drinks logged</Text>
+                            <Text className="text-slate-400 text-xs mt-1">Start tracking your caffeine intake.</Text>
+                        </View>
+                    </View>
+                ) : (
+
+                    <FlatList
+                        data={[...drinks].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => (
                             <View
                                 className={`mb-3 px-4 py-3 rounded-xl flex-row justify-between items-center ${
                                     categoryColors[item.category as keyof typeof categoryColors] ?? 'bg-slate-700'
                                 }`}
                             >
-                                {/* Left: Stacked text */}
                                 <View>
                                     <Text className="text-white text-base font-medium">{item.name}</Text>
                                     <Text className="text-slate-400 text-xs">{item.category} • {item.caffeine}mg</Text>
@@ -80,19 +87,16 @@ export default function AllDrinksScreen() {
                                     </Text>
                                 </View>
 
-                                {/* Right: Trash icon */}
                                 <View className="flex-row justify-end">
                                     <Pressable className="p-2" onPress={() => handleDeleteDrink(item.id)}>
-                                        <Text>
-                                            <Trash2 size={20} color="#f87171" />
-                                        </Text>
+                                        <Trash2 size={20} color="#f87171" />
                                     </Pressable>
                                 </View>
                             </View>
-                        );
-                    }}
-                    contentContainerStyle={{ paddingBottom: 20 }}
-                />
+                        )}
+                        contentContainerStyle={{ paddingBottom: 20 }}
+                    />
+                )}
             </View>
         </>
     );
