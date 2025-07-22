@@ -168,7 +168,7 @@ export default function Index() {
                     </View>
 
                     {/* Add Drink button */}
-                    <View className="items-center mt-5 mb-4">
+                    <View className="items-center mt-7 mb-7">
                         <Pressable
                             onPress={() => setShowAddModal(true)}
                             className="bg-blue-600 px-8 py-3 rounded-full flex-row items-center"
@@ -188,7 +188,7 @@ export default function Index() {
 
 
                     {/* Settings Button */}
-                    <View className="mt-12 mb-10 items-center">
+                    <View className="mt-7 mb-7 items-center">
                         <Pressable
                             onPress={() => router.push("/settings")}
                             className="bg-white px-6 py-2 rounded-xl shadow flex-row items-center gap-2"
