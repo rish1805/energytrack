@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Clock } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 
@@ -102,6 +102,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
                         ) : (
                             <View className="flex-1 items-center justify-center h-[170px]">
                                 <Text className="text-slate-400 text-sm">No drinks logged today</Text>
+                                <Text className="text-slate-400 text-sm">Start tracking your caffeine intake by adding a drink</Text>
                             </View>
                         )}
                     </View>
@@ -111,7 +112,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
                             onPress={() => router.push('/all-drinks')}
                             className="text-blue-400 text-sm font-medium"
                         >
-                            See drink history →
+                            See all →
                         </Text>
                     </View>
                 </View>

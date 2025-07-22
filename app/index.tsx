@@ -1,7 +1,7 @@
 import { ScrollView, Pressable, Text, View } from "react-native";
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Zap, TrendingUp, Settings, History } from 'lucide-react-native';
+import { Plus, Zap, TrendingUp, History } from 'lucide-react-native';
 import CaffeineRing from '@/components/CaffeineRing';
 import RecentDrinks from '@/components/RecentDrinks';
 import { Settings as SettingsIcon } from "lucide-react-native";
