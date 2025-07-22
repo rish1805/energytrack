@@ -57,42 +57,54 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
         <Card className="bg-slate-800 border-slate-700">
             <CardHeader className="pb-3">
                 <View className="flex-row items-center gap-2">
-                    <Clock color= "white" className="w-5 h-5" />
+                    <Clock color="white" className="w-5 h-5" />
                     <Text className="text-white text-lg font-semibold">Recent Drinks</Text>
                 </View>
             </CardHeader>
-            <CardContent className="pt-0">
 
-                <View className="space-y-10">
-                    {sortedDrinks.map((drink, index) => (
-                        <View
-                            key={drink.id} className={index !== sortedDrinks.length - 1 ? 'mb-1' : ''}>
-                            <View className="flex-row items-center justify-between px-4 py-3 bg-slate-700/50 rounded-xl border border-slate-600">
-                                <View className="flex-row items-center gap-3 flex-1 min-w-0">
-                                    <View className={`w-3 h-3 rounded-full flex-shrink-0 ${categoryColors[drink.category]}`}/>
-                                    <View className="min-w-0 flex-1">
-                                        <Text className="font-medium text-white text-sm" numberOfLines={1}>
-                                            {drink.name}
-                                        </Text>
-                                        <Text className="text-xs text-slate-400 capitalize">
-                                            {drink.category}
-                                        </Text>
+            <CardContent className="pt-0">
+                {/* height fixed to reserve space for 3 entries */}
+                <View style={{ minHeight : 200 }} className="justify-between">
+                    <View className="space-y-2">
+                        {sortedDrinks.length > 0 ? (
+                            sortedDrinks.map((drink, index) => (
+                                <View
+                                    key={drink.id}
+                                    className={index !== sortedDrinks.length - 1 ? 'mb-1' : ''}
+                                >
+                                    <View className="flex-row items-center justify-between px-4 py-3 bg-slate-700/50 rounded-xl border border-slate-600">
+                                        <View className="flex-row items-center gap-3 flex-1 min-w-0">
+                                            <View className={`w-3 h-3 rounded-full flex-shrink-0 ${categoryColors[drink.category]}`} />
+                                            <View className="min-w-0 flex-1">
+                                                <Text className="font-medium text-white text-sm" numberOfLines={1}>
+                                                    {drink.name}
+                                                </Text>
+                                                <Text className="text-xs text-slate-400 capitalize">
+                                                    {drink.category}
+                                                </Text>
+                                            </View>
+                                        </View>
+
+                                        <View className="text-right flex-shrink-0 ml-2">
+                                            <Text className="text-sm font-medium text-blue-400">
+                                                {drink.caffeine}mg
+                                            </Text>
+                                            <Text className="text-xs text-slate-500">
+                                                {new Date(drink.time).toLocaleTimeString([], {
+                                                    hour: '2-digit',
+                                                    minute: '2-digit',
+                                                })}
+                                            </Text>
+                                        </View>
                                     </View>
                                 </View>
-
-                                <View className="text-right flex-shrink-0 ml-2">
-                                    <Text className="text-sm font-medium text-blue-400">
-                                        {drink.caffeine}mg
-                                    </Text>
-                                    <Text className="text-xs text-slate-500">
-                                        {new Date(drink.time).toLocaleTimeString([], {
-                                            hour: '2-digit',
-                                            minute: '2-digit',})}
-                                    </Text>
-                                </View>
+                            ))
+                        ) : (
+                            <View className="flex-1 items-center justify-center h-[170px]">
+                                <Text className="text-slate-400 text-sm">No drinks logged today</Text>
                             </View>
-                        </View>
-                    ))}
+                        )}
+                    </View>
 
                     <View className="items-end mt-4 px-4">
                         <Text
@@ -101,9 +113,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
                         >
                             See drink history →
                         </Text>
-
                     </View>
-
                 </View>
             </CardContent>
         </Card>
