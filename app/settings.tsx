@@ -13,6 +13,7 @@ export default function SettingsScreen() {
     const [limit, setLimit] = useState("400");
     const [darkMode, setDarkMode] = useState(true);
     const [language, setLanguage] = useState("English");
+    const [dateFormat, setDateFormat] = useState("American");
 
     return (
         <>
@@ -83,6 +84,24 @@ export default function SettingsScreen() {
                         thumbColor={darkMode ? "#2563eb" : "#e2e8f0"}
                         trackColor={{ false: "#64748b", true: "#334155" }}
                     />
+                </View>
+
+                {/* Date Format Selector */}
+                <View className="mb-6">
+                    <Text className="text-white font-semibold mb-1">Date Format</Text>
+                    <View className="flex-row gap-2 mt-2">
+                        {["European", "American"].map((format) => (
+                            <Pressable
+                                key={format}
+                                onPress={() => setDateFormat(format)}
+                                className={`px-4 py-2 rounded ${
+                                    dateFormat === format ? "bg-blue-600" : "bg-slate-800"
+                                }`}
+                            >
+                                <Text className="text-white font-medium">{format}</Text>
+                            </Pressable>
+                        ))}
+                    </View>
                 </View>
 
                 {/* Language Selector */}
