@@ -13,7 +13,8 @@ const CaffeineRing = ({ percentage, current, limit }: CaffeineRingProps) => {
     const strokeWidth = 8;
     const normalizedRadius = radius - strokeWidth * 2;
     const circumference = normalizedRadius * 2 * Math.PI;
-    const strokeDashoffset = circumference - (percentage / 100) * circumference;
+    const visualPercentage = Math.min(percentage, 100);
+    const strokeDashoffset = circumference - (visualPercentage / 100) * circumference;
 
     const getRingColor = () => {
         if (percentage >= 100) return "#facc15"; // yellow-400

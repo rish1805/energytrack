@@ -60,8 +60,15 @@ export default function Index() {
         return drinkDate.toDateString() === today.toDateString();
     });
 
+    const sortedDrinks = [...todaysDrinks].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
+    const lastDrink = sortedDrinks[0];
+
     const todaysCaffeine = todaysDrinks.reduce((sum, drink) => sum + drink.caffeine, 0);
-    const caffeinePercentage = Math.min((todaysCaffeine / dailyLimit) * 100, 100);
+    const caffeinePercentage = Math.min((todaysCaffeine / dailyLimit) * 100);
+    const caffeineOverage = todaysCaffeine - dailyLimit;
+    const remainingText = caffeineOverage <= 0
+        ? `${Math.abs(caffeineOverage)}mg remaining`
+        : `${caffeineOverage}mg over limit`;
 
     const getStatusText = () => {
         if (todaysCaffeine === 0) return "None";
@@ -72,9 +79,8 @@ export default function Index() {
     };
 
     const getTimeSinceLastDrink = () => {
-        if (todaysDrinks.length === 0) return "-";
-        const lastDrink = todaysDrinks.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())[0];
-        const timeDiff = currentTime.getTime() - new Date(lastDrink.time).getTime();
+        if (!lastDrink) return "-";
+        const timeDiff = Math.max(currentTime.getTime() - new Date(lastDrink.time).getTime(), 0);
         const hours = Math.floor(timeDiff / (1000 * 60 * 60));
         const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
         return hours === 0 ? `${minutes}m` : `${hours}h ${minutes}m`;
@@ -86,6 +92,15 @@ export default function Index() {
         if (todaysCaffeine < dailyLimit * 0.8) return "text-yellow-400";
         if (todaysCaffeine < dailyLimit) return "text-orange-400";
         return "text-red-500";
+    };
+
+    const getLastDrinkTime = () => {
+        if (!lastDrink) return "-";
+        return new Date(lastDrink.time).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+        });
     };
 
     return (
@@ -151,7 +166,7 @@ export default function Index() {
                                 </View>
                                 <Text className="text-slate-400 text-xs mb-1">Last Drink</Text>
                                 <Text className="text-xl font-bold text-white">{getTimeSinceLastDrink()}</Text>
-                                <Text className="text-xs text-slate-500">ago</Text>
+                                <Text className="text-xs text-slate-500">ago at {getLastDrinkTime()}</Text>
                             </CardContent>
                         </Card>
 
@@ -162,7 +177,7 @@ export default function Index() {
                                 </View>
                                 <Text className="text-slate-400 text-xs mb-1">Daily Limit</Text>
                                 <Text className="text-xl font-bold text-white">{Math.round(caffeinePercentage)}%</Text>
-                                <Text className="text-xs text-slate-500">{dailyLimit - todaysCaffeine}mg remaining</Text>
+                                <Text className="text-xs text-slate-500">{remainingText}</Text>
                             </CardContent>
                         </Card>
                     </View>
