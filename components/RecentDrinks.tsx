@@ -53,6 +53,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
         );
     }
     */}
+
     return (
         <Card className="bg-slate-800 border-slate-700">
             <CardHeader className="pb-3">
@@ -85,7 +86,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
                                             </View>
                                         </View>
 
-                                        <View className="text-right flex-shrink-0 ml-2">
+                                        <View className="items-end w-16">
                                             <Text className="text-sm font-medium text-blue-400">
                                                 {drink.caffeine}mg
                                             </Text>
@@ -93,6 +94,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
                                                 {new Date(drink.time).toLocaleTimeString([], {
                                                     hour: '2-digit',
                                                     minute: '2-digit',
+                                                    hour12: false,
                                                 })}
                                             </Text>
                                         </View>

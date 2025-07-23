@@ -44,11 +44,11 @@ CardDescription.displayName = "CardDescription"
 
 // Content
 const CardContent = React.forwardRef<View, any>(({ className, ...props }, ref) => (
-    <View
-        ref={ref}
-        className={cn("p-6 pt-0", className)}
-        {...props}
-    />
+        <View
+            ref={ref}
+            className={cn("p-6 pt-0", className)}
+            {...props}
+        />
 ))
 CardContent.displayName = "CardContent"
 

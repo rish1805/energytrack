@@ -23,24 +23,24 @@ interface AddDrinkModalProps {
 }
 
 const presetDrinks = [
-    { name: "Red Bull (8.4 oz)", caffeine: 80, category: 'energy' },
-    { name: "Monster Energy (16 oz)", caffeine: 160, category: 'energy' },
-    { name: "Bang Energy (16 oz)", caffeine: 300, category: 'energy' },
-    { name: "Reign (16 oz)", caffeine: 300, category: 'energy' },
-    { name: "Rockstar (16 oz)", caffeine: 160, category: 'energy' },
+    { name: "Red Bull (250 ml)", caffeine: 80, category: 'energy' },
+    { name: "Monster Energy (500 ml)", caffeine: 160, category: 'energy' },
+    { name: "Bang Energy (500 ml)", caffeine: 300, category: 'energy' },
+    { name: "Reign (500 ml)", caffeine: 300, category: 'energy' },
+    { name: "Rockstar (500 ml)", caffeine: 160, category: 'energy' },
     { name: "Espresso Shot", caffeine: 63, category: 'coffee' },
-    { name: "Coffee (8 oz)", caffeine: 95, category: 'coffee' },
-    { name: "Starbucks Grande (16 oz)", caffeine: 330, category: 'coffee' },
-    { name: "Cold Brew (12 oz)", caffeine: 200, category: 'coffee' },
+    { name: "Coffee (237 ml)", caffeine: 95, category: 'coffee' },
+    { name: "Starbucks Grande (473 ml)", caffeine: 330, category: 'coffee' },
+    { name: "Cold Brew (355 ml)", caffeine: 200, category: 'coffee' },
     { name: "C4 Pre-Workout", caffeine: 150, category: 'preworkout' },
     { name: "Ghost Pre-Workout", caffeine: 202, category: 'preworkout' },
     { name: "Pre Kaged", caffeine: 274, category: 'preworkout' },
-    { name: "Coca-Cola (12 oz)", caffeine: 34, category: 'soda' },
-    { name: "Mountain Dew (12 oz)", caffeine: 54, category: 'soda' },
-    { name: "Dr Pepper (12 oz)", caffeine: 41, category: 'soda' },
-    { name: "Green Tea (8 oz)", caffeine: 25, category: 'tea' },
-    { name: "Black Tea (8 oz)", caffeine: 47, category: 'tea' },
-    { name: "Matcha (8 oz)", caffeine: 70, category: 'tea' },
+    { name: "Coca-Cola (330 ml)", caffeine: 34, category: 'soda' },
+    { name: "Mountain Dew (330 ml)", caffeine: 54, category: 'soda' },
+    { name: "Dr Pepper (330 ml)", caffeine: 41, category: 'soda' },
+    { name: "Green Tea (237 ml)", caffeine: 25, category: 'tea' },
+    { name: "Black Tea (237 ml)", caffeine: 47, category: 'tea' },
+    { name: "Matcha (237 ml)", caffeine: 70, category: 'tea' },
 ];
 
 const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
@@ -144,20 +144,35 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                                         data={presetDrinks}
                                         keyExtractor={(item) => item.name}
                                         className="flex-1"
-                                        renderItem={({ item }) => (
-                                            <Pressable
-                                                onPress={() => handlePresetSelect(item)}
-                                                className={`rounded-lg border px-4 py-3 mb-2 ${
-                                                    selectedPreset?.name === item.name
-                                                        ? 'border-purple-500 bg-purple-600/20'
-                                                        : 'border-slate-600'
-                                                } ${categoryColors[item.category as keyof typeof categoryColors]}`}
-                                            >
-                                                <Text className="text-white font-medium">{item.name}</Text>
-                                                <Text className="text-slate-300 text-xs">{item.caffeine} mg caffeine</Text>
-                                                <Text className="text-slate-400 text-xs capitalize">{item.category}</Text>
-                                            </Pressable>
-                                        )}
+                                        renderItem={({ item }) => {
+                                            const isSelected = selectedPreset?.name === item.name;
+
+                                            const highlightBorders = {
+                                                energy: 'border-red-400',
+                                                coffee: 'border-amber-400',
+                                                preworkout: 'border-purple-400',
+                                                soda: 'border-blue-400',
+                                                tea: 'border-green-400',
+                                                other: 'border-gray-400',
+                                            };
+
+                                            const defaultBorder = 'border-slate-600';
+
+                                            const borderColorClass = isSelected
+                                                ? highlightBorders[item.category as keyof typeof highlightBorders]
+                                                : defaultBorder;
+
+                                            return (
+                                                <Pressable
+                                                    onPress={() => handlePresetSelect(item)}
+                                                    className={`rounded-lg border px-4 py-3 mb-2 ${borderColorClass} ${categoryColors[item.category as keyof typeof categoryColors]}`}
+                                                >
+                                                    <Text className="text-white font-medium">{item.name}</Text>
+                                                    <Text className="text-slate-300 text-xs">{item.caffeine} mg caffeine</Text>
+                                                    <Text className="text-slate-400 text-xs capitalize">{item.category}</Text>
+                                                </Pressable>
+                                            );
+                                        }}
                                     />
                                 ) : (
                                     <ScrollView className="space-y-3 flex-1">

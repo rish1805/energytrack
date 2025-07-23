@@ -13,7 +13,8 @@ export default function SettingsScreen() {
     const [limit, setLimit] = useState("400");
     const [darkMode, setDarkMode] = useState(true);
     const [language, setLanguage] = useState("English");
-    const [dateFormat, setDateFormat] = useState("American");
+    const [dateFormat, setDateFormat] = useState("European");
+    const [timeFormat, setTimeFormat] = useState("24h");
 
     return (
         <>
@@ -96,6 +97,24 @@ export default function SettingsScreen() {
                                 onPress={() => setDateFormat(format)}
                                 className={`px-4 py-2 rounded ${
                                     dateFormat === format ? "bg-blue-600" : "bg-slate-800"
+                                }`}
+                            >
+                                <Text className="text-white font-medium">{format}</Text>
+                            </Pressable>
+                        ))}
+                    </View>
+                </View>
+
+                {/* Time Format Selector */}
+                <View className="mb-6">
+                    <Text className="text-white font-semibold mb-1">Time Format</Text>
+                    <View className="flex-row gap-2 mt-2">
+                        {["24h", "12h"].map((format) => (
+                            <Pressable
+                                key={format}
+                                onPress={() => setTimeFormat(format)}
+                                className={`px-4 py-2 rounded ${
+                                    timeFormat === format ? "bg-blue-600" : "bg-slate-800"
                                 }`}
                             >
                                 <Text className="text-white font-medium">{format}</Text>
