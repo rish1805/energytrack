@@ -9,8 +9,8 @@ export default function SettingsScreen() {
 
     // Placeholder states (you’ll later connect these to context or AsyncStorage)
     const [name, setName] = useState("");
-    const [unit, setUnit] = useState("mg");
     const [limit, setLimit] = useState("400");
+    const [unit, setUnit] = useState("ml");
     const [darkMode, setDarkMode] = useState(true);
     const [language, setLanguage] = useState("English");
     const [dateFormat, setDateFormat] = useState("European");
@@ -58,11 +58,11 @@ export default function SettingsScreen() {
                     />
                 </View>
 
-                {/* Units */}
+                {/* Unit of Measurement */}
                 <View className="mb-6">
                     <Text className="text-white font-semibold mb-1">Unit of Measurement</Text>
                     <View className="flex-row gap-2 mt-2">
-                        {["mg", "oz", "ml"].map((u) => (
+                        {["ml", "oz"].map((u) => (
                             <Pressable
                                 key={u}
                                 onPress={() => setUnit(u)}
