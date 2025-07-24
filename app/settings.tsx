@@ -3,6 +3,8 @@ import { Stack } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import React, { useState } from "react";
 import { useNavigation } from '@react-navigation/native';
+import { useDrinks } from "@/components/DrinksProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SettingsScreen() {
     const navigation = useNavigation();
@@ -15,6 +17,7 @@ export default function SettingsScreen() {
     const [language, setLanguage] = useState("English");
     const [dateFormat, setDateFormat] = useState("European");
     const [timeFormat, setTimeFormat] = useState("24h");
+    const { setUserName } = useDrinks();
 
     return (
         <>
@@ -38,7 +41,11 @@ export default function SettingsScreen() {
                     <Text className="text-white font-semibold mb-1">Your Name</Text>
                     <TextInput
                         value={name}
-                        onChangeText={setName}
+                        onChangeText={(text) => {
+                            setName(text);
+                            setUserName(text);
+                            AsyncStorage.setItem("userName", text);
+                        }}
                         placeholder="Enter your name"
                         placeholderTextColor="#94a3b8"
                         className="bg-slate-800 text-white rounded px-4 py-2"

@@ -10,24 +10,29 @@ import { useRouter, Stack } from "expo-router";
 import { useDrinks } from "@/components/DrinksProvider";
 
 // Greeting logic
-function getGreeting(locale: "en" | "da" = "en") {
+function getGreeting(locale: "en" | "da" = "en", username?: string): string {
     const hour = new Date().getHours();
     const greetings = {
         en: {
-            morning: "Good morning!",
-            afternoon: "Good afternoon!",
-            evening: "Good evening!",
+            morning: "Good morning",
+            afternoon: "Good afternoon",
+            evening: "Good evening",
         },
         da: {
-            morning: "Godmorgen!",
-            afternoon: "God eftermiddag!",
-            evening: "God aften!",
+            morning: "Godmorgen",
+            afternoon: "God eftermiddag",
+            evening: "God aften",
         },
     };
 
-    if (hour < 12) return greetings[locale].morning;
-    else if (hour < 17) return greetings[locale].afternoon;
-    else return greetings[locale].evening;
+    let greeting =
+        hour < 12
+            ? greetings[locale].morning
+            : hour < 17
+                ? greetings[locale].afternoon
+                : greetings[locale].evening;
+
+    return username ? `${greeting}, ${username}!` : `${greeting}!`;
 }
 
 // DrinkEntry type
@@ -46,6 +51,7 @@ export default function Index() {
     const [dailyLimit, setDailyLimit] = useState(400);
     const [showAddModal, setShowAddModal] = useState(false);
     const [currentTime, setCurrentTime] = useState(new Date());
+    const { userName }  = useDrinks();
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -120,7 +126,7 @@ export default function Index() {
                     <View className="flex-row justify-between items-start">
                         <View>
                             <Text className="text-2xl font-bold text-white">
-                                {getGreeting("en")}
+                                {getGreeting("en", userName)}
                             </Text>
                             <Text className="text-slate-400 text-sm mt-1">
                                 Track your caffeine intake
