@@ -14,6 +14,8 @@ interface DrinksContextProps {
     addDrink: (drink: DrinkEntry) => void;
     deleteDrink: (id: string) => void;
     refreshDrinks: () => void;
+    userName: string;
+    setUserName: (name: string) => void;
 }
 
 const DrinksContext = createContext<DrinksContextProps | undefined>(undefined);
@@ -57,8 +59,31 @@ export const DrinksProvider = ({ children }: { children: React.ReactNode }) => {
         loadDrinks();
     }, []);
 
+    const [userName, setUserName] = useState("");
+
+    useEffect(() => {
+        const loadName = async () => {
+            try {
+                const storedName = await AsyncStorage.getItem("userName");
+                if (storedName) {
+                    setUserName(storedName);
+                    // console.log("Name saved:", userName);
+                }
+            } catch (e) {
+                console.error("Failed to load userName:", e);
+            }
+        };
+        loadName();
+    }, []);
+
     return (
-        <DrinksContext.Provider value={{ drinks, addDrink, deleteDrink, refreshDrinks }}>
+        <DrinksContext.Provider value={{
+            drinks,
+            addDrink,
+            deleteDrink,
+            refreshDrinks,
+            userName,
+            setUserName }}>
             {children}
         </DrinksContext.Provider>
     );

@@ -1,6 +1,7 @@
 Code force run an iphone 16. First run this:
 xcrun simctl boot 7318707D-CE2A-41ED-BD8D-24592CA1FD5D
 
-Then run npx expo start -clear
+Then run:
+npx expo start -clear
 
 Force first beacuse otherwise expo uses iphone 16 plus automatically.
