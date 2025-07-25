@@ -1,7 +1,8 @@
 import { Stack } from "expo-router";
 import "./globals.css";
-import { DrinksProvider } from "@/components/DrinksProvider";
+import { DrinksProvider } from "@/components/AppContext";
 import { View } from "react-native";
+import Toast from "react-native-toast-message";
 
 export default function RootLayout() {
     return (
@@ -15,6 +16,7 @@ export default function RootLayout() {
                     }}
                 />
             </View>
+            <Toast/>
         </DrinksProvider>
     );
 }

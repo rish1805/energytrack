@@ -3,8 +3,9 @@ import { Stack } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import React, { useState } from "react";
 import { useNavigation } from '@react-navigation/native';
-import { useDrinks } from "@/components/DrinksProvider";
+import { useDrinks } from "@/components/AppContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 
 export default function SettingsScreen() {
     const navigation = useNavigation();
@@ -43,8 +44,41 @@ export default function SettingsScreen() {
                         value={name}
                         onChangeText={(text) => {
                             setName(text);
-                            setUserName(text);
-                            AsyncStorage.setItem("userName", text);
+                        }}
+                        onEndEditing={() => {
+                            const trimmed = name.trim();
+
+                            // accepts and saves an empty input (clears name)
+                            if (trimmed === "") {
+                                setUserName("");
+                                AsyncStorage.setItem("userName", "");
+                                Toast.show({
+                                    type: "success",
+                                    text1: "Name cleared!",
+                                    position: "bottom",
+                                });
+                                return;
+                            }
+
+                            // checks that non-empty input has only valid characters
+                            if (!/^[a-zA-Z ]+$/.test(trimmed)) {
+                                Toast.show({
+                                    type: "error",
+                                    text1: "Invalid input",
+                                    text2: "Use only letters (A–Z) and spaces.",
+                                    position: "bottom",
+                                });
+                                return;
+                            }
+
+                            // saves if valid
+                            setUserName(trimmed);
+                            AsyncStorage.setItem("userName", trimmed);
+                            Toast.show({
+                                type: "success",
+                                text1: "Name saved!",
+                                position: "bottom",
+                            });
                         }}
                         placeholder="Enter your name"
                         placeholderTextColor="#94a3b8"
