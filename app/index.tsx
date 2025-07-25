@@ -7,11 +7,12 @@ import RecentDrinks from '@/components/RecentDrinks';
 import { Settings as SettingsIcon } from "lucide-react-native";
 import AddDrinkModal from "@/components/AddDrink";
 import { useRouter, Stack } from "expo-router";
-import { useDrinks } from "@/components/DrinksProvider";
+import { useDrinks } from "@/components/AppContext";
 
 // Greeting logic
-function getGreeting(locale: "en" | "da" = "en", username?: string): string {
+function getGreeting(locale: "en" | "da" = "en", name?: string) {
     const hour = new Date().getHours();
+
     const greetings = {
         en: {
             morning: "Good morning",
@@ -25,14 +26,14 @@ function getGreeting(locale: "en" | "da" = "en", username?: string): string {
         },
     };
 
-    let greeting =
-        hour < 12
-            ? greetings[locale].morning
-            : hour < 17
-                ? greetings[locale].afternoon
-                : greetings[locale].evening;
+    let baseGreeting = "";
 
-    return username ? `${greeting}, ${username}!` : `${greeting}!`;
+    if (hour < 12) baseGreeting = greetings[locale].morning;
+    else if (hour < 18) baseGreeting = greetings[locale].afternoon;
+    else baseGreeting = greetings[locale].evening;
+
+    // 🔸 NEW logic added below:
+    return name && name.trim() !== "" ? `${baseGreeting}, ${name}!` : `${baseGreeting}!`;
 }
 
 // DrinkEntry type

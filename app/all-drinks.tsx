@@ -3,7 +3,7 @@ import { View, Text, FlatList, Pressable, Alert } from 'react-native';
 import { Stack } from 'expo-router';
 import { useNavigation } from '@react-navigation/native';
 import { ArrowLeft, Trash2 } from 'lucide-react-native';
-import { useDrinks } from "@/components/DrinksProvider";
+import { useDrinks } from "@/components/AppContext";
 
 interface DrinkEntry {
     id: string;
