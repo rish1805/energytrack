@@ -1,7 +1,7 @@
 import { View, Text, Pressable, Switch, TextInput } from "react-native";
 import { Stack } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigation } from '@react-navigation/native';
 import { useDrinks } from "@/components/AppContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -18,7 +18,13 @@ export default function SettingsScreen() {
     const [language, setLanguage] = useState("English");
     const [dateFormat, setDateFormat] = useState("European");
     const [timeFormat, setTimeFormat] = useState("24h");
-    const { setUserName } = useDrinks();
+    const { userName, setUserName } = useDrinks();
+
+    useEffect(() => {
+        if (userName) {
+            setName(userName);
+        }
+    }, [userName]);
 
     return (
         <>
@@ -80,7 +86,7 @@ export default function SettingsScreen() {
                                 position: "bottom",
                             });
                         }}
-                        placeholder="Enter your name"
+                        placeholder={userName ? "" : "Enter your name"}
                         placeholderTextColor="#94a3b8"
                         className="bg-slate-800 text-white rounded px-4 py-2"
                     />
