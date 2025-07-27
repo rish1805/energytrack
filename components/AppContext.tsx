@@ -16,14 +16,19 @@ interface DrinksContextProps {
     refreshDrinks: () => void;
     userName: string;
     setUserName: (name: string) => void;
+    dailyLimit: number;
+    setDailyLimit: (limit: number) => void;
 }
 
 const DrinksContext = createContext<DrinksContextProps | undefined>(undefined);
 
 const STORAGE_KEY = 'caffeineTracker';
+const LIMIT_KEY = 'dailyLimit';
 
 export const DrinksProvider = ({ children }: { children: React.ReactNode }) => {
     const [drinks, setDrinks] = useState<DrinkEntry[]>([]);
+    const [userName, setUserName] = useState("");
+    const [dailyLimit, setDailyLimit] = useState(400);
 
     const loadDrinks = async () => {
         try {
@@ -59,8 +64,6 @@ export const DrinksProvider = ({ children }: { children: React.ReactNode }) => {
         loadDrinks();
     }, []);
 
-    const [userName, setUserName] = useState("");
-
     useEffect(() => {
         const loadName = async () => {
             try {
@@ -76,6 +79,29 @@ export const DrinksProvider = ({ children }: { children: React.ReactNode }) => {
         loadName();
     }, []);
 
+    useEffect(() => {
+        const loadLimit = async () => {
+            try {
+                const storedLimit = await AsyncStorage.getItem(LIMIT_KEY);
+                if (storedLimit) setDailyLimit(Number(storedLimit));
+            } catch (e) {
+                console.error("Failed to caffeine limit:", e);
+            }
+        };
+        loadLimit();
+    }, []);
+
+    useEffect(() => {
+        const saveLimit = async () => {
+            try {
+                await AsyncStorage.setItem(LIMIT_KEY, dailyLimit.toString());
+            } catch (e) {
+                console.error("Failed to save caffeine limit:", e);
+            }
+        };
+        saveLimit();
+    }, [dailyLimit]);
+
     return (
         <DrinksContext.Provider value={{
             drinks,
@@ -83,7 +109,10 @@ export const DrinksProvider = ({ children }: { children: React.ReactNode }) => {
             deleteDrink,
             refreshDrinks,
             userName,
-            setUserName }}>
+            setUserName,
+            dailyLimit,
+            setDailyLimit,
+            }}>
             {children}
         </DrinksContext.Provider>
     );

@@ -49,10 +49,10 @@ interface DrinkEntry {
 export default function Index() {
     const router = useRouter();
     const { drinks, addDrink } = useDrinks();
-    const [dailyLimit, setDailyLimit] = useState(400);
     const [showAddModal, setShowAddModal] = useState(false);
     const [currentTime, setCurrentTime] = useState(new Date());
     const { userName }  = useDrinks();
+    const { dailyLimit } = useDrinks();
 
     useEffect(() => {
         const timer = setInterval(() => {

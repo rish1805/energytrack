@@ -12,7 +12,8 @@ export default function SettingsScreen() {
 
     // Placeholder states (you’ll later connect these to context or AsyncStorage)
     const [name, setName] = useState("");
-    const [limit, setLimit] = useState("400");
+    const { dailyLimit, setDailyLimit } = useDrinks();
+    const [limit, setLimit] = useState(dailyLimit.toString());
     const [unit, setUnit] = useState("ml");
     const [darkMode, setDarkMode] = useState(true);
     const [language, setLanguage] = useState("English");
@@ -25,6 +26,10 @@ export default function SettingsScreen() {
             setName(userName);
         }
     }, [userName]);
+
+    useEffect(() => {
+        setLimit(dailyLimit.toString());
+    }, [dailyLimit]);
 
     return (
         <>
@@ -98,7 +103,25 @@ export default function SettingsScreen() {
                     <TextInput
                         value={limit}
                         onChangeText={setLimit}
-                        placeholder="e.g., 400"
+                        onEndEditing={() => {
+                            const parsed = parseInt(limit);
+                            if (isNaN(parsed) || parsed < 1 || parsed > 1000) {
+                                Toast.show({
+                                    type: "error",
+                                    text1: "Invalid limit",
+                                    text2: "Enter a number between 1-1000.",
+                                    position: "bottom",
+                                });
+                                return;
+                            }
+                            setDailyLimit(parsed);
+                            Toast.show({
+                                type: "success",
+                                text1: "Limit saved!",
+                                position: "bottom",
+                            });
+                        }}
+                        placeholder="e.g., 400mg is the recommended amount"
                         placeholderTextColor="#94a3b8"
                         keyboardType="numeric"
                         className="bg-slate-800 text-white rounded px-4 py-2"
