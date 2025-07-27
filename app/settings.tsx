@@ -14,12 +14,20 @@ export default function SettingsScreen() {
     const [name, setName] = useState("");
     const { dailyLimit, setDailyLimit } = useDrinks();
     const [limit, setLimit] = useState(dailyLimit.toString());
-    const [unit, setUnit] = useState("ml");
-    const [darkMode, setDarkMode] = useState(true);
-    const [language, setLanguage] = useState("English");
-    const [dateFormat, setDateFormat] = useState("European");
-    const [timeFormat, setTimeFormat] = useState("24h");
-    const { userName, setUserName } = useDrinks();
+
+    const { unit,
+            setUnit,
+            language,
+            setLanguage,
+            dateFormat,
+            setDateFormat,
+            timeFormat,
+            setTimeFormat,
+            userName,
+            setUserName,
+                            } = useDrinks();
+
+    const { darkTheme, setDarkTheme } = useDrinks();
 
     useEffect(() => {
         if (userName) {
@@ -132,7 +140,7 @@ export default function SettingsScreen() {
                 <View className="mb-6">
                     <Text className="text-white font-semibold mb-1">Unit of Measurement</Text>
                     <View className="flex-row gap-2 mt-2">
-                        {["ml", "oz"].map((u) => (
+                        {(["ml", "oz"] as const).map((u) => (
                             <Pressable
                                 key={u}
                                 onPress={() => setUnit(u)}
@@ -150,9 +158,9 @@ export default function SettingsScreen() {
                 <View className="mb-6 flex-row justify-between items-center">
                     <Text className="text-white font-semibold">Dark Theme</Text>
                     <Switch
-                        value={darkMode}
-                        onValueChange={setDarkMode}
-                        thumbColor={darkMode ? "#2563eb" : "#e2e8f0"}
+                        value={darkTheme}
+                        onValueChange={setDarkTheme}
+                        thumbColor={darkTheme ? "#2563eb" : "#e2e8f0"}
                         trackColor={{ false: "#64748b", true: "#334155" }}
                     />
                 </View>
@@ -161,7 +169,7 @@ export default function SettingsScreen() {
                 <View className="mb-6">
                     <Text className="text-white font-semibold mb-1">Date Format</Text>
                     <View className="flex-row gap-2 mt-2">
-                        {["European", "American"].map((format) => (
+                        {(["European", "American"]as const).map((format) => (
                             <Pressable
                                 key={format}
                                 onPress={() => setDateFormat(format)}
@@ -179,7 +187,7 @@ export default function SettingsScreen() {
                 <View className="mb-6">
                     <Text className="text-white font-semibold mb-1">Time Format</Text>
                     <View className="flex-row gap-2 mt-2">
-                        {["24h", "12h"].map((format) => (
+                        {(["24h", "12h"] as const).map((format) => (
                             <Pressable
                                 key={format}
                                 onPress={() => setTimeFormat(format)}
@@ -197,7 +205,7 @@ export default function SettingsScreen() {
                 <View className="mb-6">
                     <Text className="text-white font-semibold mb-1">App Language</Text>
                     <View className="flex-row gap-2 mt-2">
-                        {["English", "Dansk", "Deutsch"].map((lang) => (
+                        {(["English", "Dansk", "Deutsch"] as const).map((lang) => (
                             <Pressable
                                 key={lang}
                                 onPress={() => setLanguage(lang)}
