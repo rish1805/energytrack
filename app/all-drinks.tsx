@@ -16,6 +16,7 @@ interface DrinkEntry {
 export default function AllDrinksScreen() {
     const navigation = useNavigation();
     const { drinks, deleteDrink, refreshDrinks } = useDrinks();
+    const { dateFormat } = useDrinks();
 
     const handleDeleteDrink = (id: string) => {
         Alert.alert(
@@ -83,7 +84,7 @@ export default function AllDrinksScreen() {
                                     <Text className="text-white text-base font-medium">{item.name}</Text>
                                     <Text className="text-slate-400 text-xs">{item.category} • {item.caffeine}mg</Text>
                                     <Text className="text-slate-500 text-xs">
-                                        {new Date(item.time).toLocaleString("en-GB", {
+                                        {new Date(item.time).toLocaleString(dateFormat === "American" ? "en-US" : "en-GB", {
                                             day: "2-digit",
                                             month: "2-digit",
                                             year: "numeric",
