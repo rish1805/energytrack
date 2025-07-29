@@ -16,7 +16,7 @@ interface DrinkEntry {
 export default function AllDrinksScreen() {
     const navigation = useNavigation();
     const { drinks, deleteDrink, refreshDrinks } = useDrinks();
-    const { dateFormat } = useDrinks();
+    const { dateFormat, timeFormat } = useDrinks();
 
     const handleDeleteDrink = (id: string) => {
         Alert.alert(
@@ -91,8 +91,9 @@ export default function AllDrinksScreen() {
                                             hour: "2-digit",
                                             minute: "2-digit",
                                             second: "2-digit",
-                                            hour12: false,
-                                        })}
+                                            hour12: timeFormat === "12h",
+                                        })
+                                            .replace(/\s(am|pm)/i, (match) => `${match.toUpperCase()}`)}
                                     </Text>
                                 </View>
 

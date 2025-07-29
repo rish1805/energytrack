@@ -3,6 +3,8 @@ import { View, Text } from 'react-native';
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Clock } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
+import { useDrinks } from "@/components/AppContext";
+import {time} from "@expo/fingerprint/cli/build/utils/log";
 
 interface DrinkEntry {
     id: string;
@@ -31,6 +33,8 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
     const sortedDrinks = [...drinks]
         .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
         .slice(0, 3);
+
+    const { timeFormat } = useDrinks();
 
 
     {/* if (sortedDrinks.length === 0) {
@@ -94,7 +98,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
                                                 {new Date(drink.time).toLocaleTimeString([], {
                                                     hour: '2-digit',
                                                     minute: '2-digit',
-                                                    hour12: false,
+                                                    hour12: timeFormat === "12h",
                                                 })}
                                             </Text>
                                         </View>

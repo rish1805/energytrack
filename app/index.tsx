@@ -51,8 +51,8 @@ export default function Index() {
     const { drinks, addDrink } = useDrinks();
     const [showAddModal, setShowAddModal] = useState(false);
     const [currentTime, setCurrentTime] = useState(new Date());
-    const { userName }  = useDrinks();
-    const { dailyLimit } = useDrinks();
+    const { userName, dailyLimit, timeFormat }  = useDrinks();
+
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -106,7 +106,7 @@ export default function Index() {
         return new Date(lastDrink.time).toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit',
-            hour12: false,
+            hour12: timeFormat === "12h",
         });
     };
 
