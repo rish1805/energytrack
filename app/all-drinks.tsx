@@ -15,8 +15,7 @@ interface DrinkEntry {
 
 export default function AllDrinksScreen() {
     const navigation = useNavigation();
-    const { drinks, deleteDrink, refreshDrinks } = useDrinks();
-    const { dateFormat, timeFormat } = useDrinks();
+    const { drinks, deleteDrink, refreshDrinks, dateFormat, timeFormat, unit } = useDrinks();
 
     const handleDeleteDrink = (id: string) => {
         Alert.alert(
@@ -42,6 +41,19 @@ export default function AllDrinksScreen() {
         soda: 'bg-blue-500/20',
         tea: 'bg-green-500/20',
         other: 'bg-slate-500/20',
+    };
+
+    const getDisplayName = (name: string) => {
+        const amountMatch = name.match(/\((\d+)\s*ml\)/i);
+        const baseName = name.replace(/\s*\(\d+\s*ml\)/i, '').trim();
+
+        if (unit === 'oz' && amountMatch) {
+            const ml = parseInt(amountMatch[1]);
+            const oz = (ml * 0.033814).toFixed(1); // or however precise you want
+            return `${baseName} (${oz} oz)`;
+        }
+
+        return name; // keep original if ml or can't parse
     };
 
     return (
@@ -81,7 +93,7 @@ export default function AllDrinksScreen() {
                                 }`}
                             >
                                 <View>
-                                    <Text className="text-white text-base font-medium">{item.name}</Text>
+                                    <Text className="text-white text-base font-medium">{getDisplayName(item.name)}</Text>
                                     <Text className="text-slate-400 text-xs">{item.category} • {item.caffeine}mg</Text>
                                     <Text className="text-slate-500 text-xs">
                                         {new Date(item.time).toLocaleString(dateFormat === "American" ? "en-US" : "en-GB", {

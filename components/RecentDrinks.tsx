@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Clock } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { useDrinks } from "@/components/AppContext";
-import { formatDrinkAmount } from "@/lib/formatDrinkAmount";
 import { useContext } from 'react';
 import {time} from "@expo/fingerprint/cli/build/utils/log";
 
