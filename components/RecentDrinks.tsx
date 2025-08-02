@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Clock } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { useDrinks } from "@/components/AppContext";
+import { formatDrinkAmount } from "@/lib/formatDrinkAmount";
+import { useContext } from 'react';
 import {time} from "@expo/fingerprint/cli/build/utils/log";
 
 interface DrinkEntry {
@@ -34,7 +36,20 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
         .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
         .slice(0, 3);
 
-    const { timeFormat } = useDrinks();
+    const { timeFormat, unit } = useDrinks();
+
+    const getDisplayName = (name: string) => {
+        const amountMatch = name.match(/\((\d+)\s*ml\)/i);
+        const baseName = name.replace(/\s*\(\d+\s*ml\)/i, '').trim();
+
+        if (unit === 'oz' && amountMatch) {
+            const ml = parseInt(amountMatch[1]);
+            const oz = (ml * 0.033814).toFixed(1); // or however precise you want
+            return `${baseName} (${oz} oz)`;
+        }
+
+        return name; // keep original if ml or can't parse
+    };
 
 
     {/* if (sortedDrinks.length === 0) {
@@ -82,7 +97,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
                                             <View className={`w-3 h-3 rounded-full flex-shrink-0 ${categoryColors[drink.category]}`} />
                                             <View className="min-w-0 flex-1">
                                                 <Text className="font-medium text-white text-sm" numberOfLines={1}>
-                                                    {drink.name}
+                                                    {getDisplayName(drink.name)}
                                                 </Text>
                                                 <Text className="text-xs text-slate-400 capitalize">
                                                     {drink.category}
