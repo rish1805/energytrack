@@ -8,6 +8,7 @@ import {
     ScrollView,
     FlatList,
 } from 'react-native';
+import { useDrinks } from "@/components/AppContext";
 
 interface DrinkEntry {
     name: string;
@@ -94,6 +95,21 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
         other: 'border-gray-500 bg-gray-500/10',
     };
 
+    const { unit } = useDrinks()
+
+    const getDisplayName = (name: string) => {
+        const amountMatch = name.match(/\((\d+)\s*ml\)/i);
+        const baseName = name.replace(/\s*\(\d+\s*ml\)/i, '').trim();
+
+        if (unit === 'oz' && amountMatch) {
+            const ml = parseInt(amountMatch[1]);
+            const oz = (ml * 0.033814).toFixed(1); // or however precise you want
+            return `${baseName} (${oz} oz)`;
+        }
+
+        return name; // keep original if ml or can't parse
+    };
+
     return (
         <>
             {/* Main Modal */}
@@ -167,7 +183,7 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                                                     onPress={() => handlePresetSelect(item)}
                                                     className={`rounded-lg border px-4 py-3 mb-2 ${borderColorClass} ${categoryColors[item.category as keyof typeof categoryColors]}`}
                                                 >
-                                                    <Text className="text-white font-medium">{item.name}</Text>
+                                                    <Text className="text-white font-medium">{getDisplayName(item.name)}</Text>
                                                     <Text className="text-slate-300 text-xs">{item.caffeine} mg caffeine</Text>
                                                     <Text className="text-slate-400 text-xs capitalize">{item.category}</Text>
                                                 </Pressable>
