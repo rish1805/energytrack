@@ -32,7 +32,7 @@ function getGreeting(locale: "en" | "da" = "en", name?: string) {
     else if (hour < 18) baseGreeting = greetings[locale].afternoon;
     else baseGreeting = greetings[locale].evening;
 
-    // 🔸 NEW logic added below:
+    // NEW logic added below:
     return name && name.trim() !== "" ? `${baseGreeting}, ${name}!` : `${baseGreeting}!`;
 }
 
