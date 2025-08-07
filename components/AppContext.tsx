@@ -48,6 +48,7 @@ interface DrinksContextProps {
     setLanguage: (language: 'English' | 'Dansk' | 'Deutsch') => void;
     darkTheme: boolean;
     setDarkTheme: (enabled: boolean) => void;
+    resetSettings: () => void;
 }
 
 const DrinksContext = createContext<DrinksContextProps | undefined>(undefined);
@@ -119,6 +120,15 @@ export const DrinksProvider = ({ children }: { children: React.ReactNode }) => {
         loadSettings();
     }, []);
 
+    const resetSettings = async () => {
+        try {
+            setSettings(defaultSettings);
+            await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify(defaultSettings));
+        } catch (e) {
+            console.error('Failed to reset settings:', e);
+        }
+    };
+
     return (
         <DrinksContext.Provider
             value={{
@@ -140,6 +150,7 @@ export const DrinksProvider = ({ children }: { children: React.ReactNode }) => {
                 setLanguage: (language) => updateSettings({ language }),
                 darkTheme: settings.darkTheme,
                 setDarkTheme: (enabled: boolean) => updateSettings({ darkTheme: enabled }),
+                resetSettings,
             }}
         >
             {children}

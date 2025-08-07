@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Switch, TextInput } from "react-native";
+import { View, Text, Pressable, Switch, TextInput, Alert } from "react-native";
 import { Stack } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import React, {useEffect, useState} from "react";
@@ -12,7 +12,7 @@ export default function SettingsScreen() {
 
     // Placeholder states (you’ll later connect these to context or AsyncStorage)
     const [name, setName] = useState("");
-    const { dailyLimit, setDailyLimit } = useDrinks();
+    const { dailyLimit, setDailyLimit, resetSettings } = useDrinks();
     const [limit, setLimit] = useState(dailyLimit.toString());
 
     const { unit,
@@ -217,6 +217,33 @@ export default function SettingsScreen() {
                             </Pressable>
                         ))}
                     </View>
+                </View>
+
+                <View className="mb-6">
+                    <Text className="text-white font-semibold mb-1">Reset All Settings</Text>
+                    <Pressable
+                        onPress={() => {
+                            Alert.alert(
+                                "Reset All Settings?",
+                                "This will reset all your preferences to default values. Continue?",
+                                [
+                                    { text: "Cancel", style: "cancel" },
+                                    { text: "Reset", style: "destructive", onPress: () => {
+                                            resetSettings();
+                                            Toast.show({
+                                                type: "success",
+                                                text1: "Settings reset to default.",
+                                                position: "bottom",
+                                            });
+                                    }
+                                    }
+                                ]
+                            );
+                        }}
+                        className="mt-2 bg-red-700 px-4 py-2 rounded"
+                    >
+                        <Text className="text-white font-medium text-center">Reset to Default</Text>
+                    </Pressable>
                 </View>
 
             </View>

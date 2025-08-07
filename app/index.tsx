@@ -48,7 +48,7 @@ interface DrinkEntry {
 // Main page component
 export default function Index() {
     const router = useRouter();
-    const { drinks, addDrink } = useDrinks();
+    const { drinks, addDrink, resetSettings } = useDrinks();
     const [showAddModal, setShowAddModal] = useState(false);
     const [currentTime, setCurrentTime] = useState(new Date());
     const { userName, dailyLimit, timeFormat }  = useDrinks();
