@@ -154,7 +154,10 @@ export default function SettingsScreen() {
                     </View>
                 </View>
 
-                {/* Theme */}
+                {/*
+
+                Theme (taking it out for now)
+
                 <View className="mb-6 flex-row justify-between items-center">
                     <Text className="text-white font-semibold">Dark Theme</Text>
                     <Switch
@@ -164,6 +167,8 @@ export default function SettingsScreen() {
                         trackColor={{ false: "#64748b", true: "#334155" }}
                     />
                 </View>
+
+                    */}
 
                 {/* Date Format Selector */}
                 <View className="mb-6">
