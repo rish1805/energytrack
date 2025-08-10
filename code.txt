@@ -1,5 +1,5 @@
 Code force run an iPhone 16. First run this:
-xcrun simctl boot 7318707D-CE2A-41ED-BD8D-24592CA1FD5D
+xcrun simctl boot A2B2B38A-B08D-41BB-8D25-CD9946E77B03
 
 Then run:
 npx expo start --clear
