@@ -15,7 +15,7 @@ interface DrinkEntry {
 
 export default function AllDrinksScreen() {
     const navigation = useNavigation();
-    const { drinks, deleteDrink, refreshDrinks, dateFormat, timeFormat, unit } = useDrinks();
+    const { drinks, deleteDrink, refreshDrinks, dateFormat, timeFormat, unit, clearAllDrinks } = useDrinks();
 
     const handleDeleteDrink = (id: string) => {
         Alert.alert(
@@ -56,6 +56,17 @@ export default function AllDrinksScreen() {
         return name; // keep original if ml or can't parse
     };
 
+    const handleDeleteAll = () => {
+        Alert.alert(
+            "Delete All Drinks",
+            "This will remove every drink entry. Are you sure?",
+            [
+                { text: "Cancel", style: "cancel" },
+                { text: "Delete All", style: "destructive", onPress: clearAllDrinks }
+            ]
+        );
+    };
+
     return (
         <>
             {/* Configure the transition animation for this screen */}
@@ -71,7 +82,14 @@ export default function AllDrinksScreen() {
                     <Text className="text-white text-base font-medium">Back</Text>
                 </Pressable>
 
-                <Text className="text-2xl font-bold text-white mb-4">All Drinks</Text>
+                <View className="flex-row justify-between items-center mb-4">
+                    <Text className="text-2xl font-bold text-white">All Drinks</Text>
+                    {drinks.length > 0 && (
+                        <Pressable onPress={handleDeleteAll} className="p-2">
+                            <Trash2 size={22} color="#f87171" />
+                        </Pressable>
+                    )}
+                </View>
 
                 {/* Check if drinks logged = 0, if ture displays the "No drinks logged" message */}
                 {drinks.length === 0 ? (

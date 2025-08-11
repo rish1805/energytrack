@@ -49,6 +49,7 @@ interface DrinksContextProps {
     darkTheme: boolean;
     setDarkTheme: (enabled: boolean) => void;
     resetSettings: () => void;
+    clearAllDrinks: () => void;
 }
 
 const DrinksContext = createContext<DrinksContextProps | undefined>(undefined);
@@ -129,6 +130,15 @@ export const DrinksProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
+    const clearAllDrinks = async () => {
+        try {
+            setDrinks([]);
+            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+        } catch (e) {
+            console.error('Failed to clear all drinks:', e);
+        }
+    };
+
     return (
         <DrinksContext.Provider
             value={{
@@ -151,6 +161,7 @@ export const DrinksProvider = ({ children }: { children: React.ReactNode }) => {
                 darkTheme: settings.darkTheme,
                 setDarkTheme: (enabled: boolean) => updateSettings({ darkTheme: enabled }),
                 resetSettings,
+                clearAllDrinks,
             }}
         >
             {children}
