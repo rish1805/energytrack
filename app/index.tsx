@@ -8,31 +8,18 @@ import { Settings as SettingsIcon } from "lucide-react-native";
 import AddDrinkModal from "@/components/AddDrink";
 import { useRouter, Stack } from "expo-router";
 import { useDrinks } from "@/components/AppContext";
+import {STRINGS, normalizeLanguage } from "@/components/language/Strings";
 
 // Greeting logic
-function getGreeting(locale: "en" | "da" = "en", name?: string) {
+function getGreeting(locale: "en" | "da" | "de" = "en", name?: string) {
     const hour = new Date().getHours();
-
-    const greetings = {
-        en: {
-            morning: "Good morning",
-            afternoon: "Good afternoon",
-            evening: "Good evening",
-        },
-        da: {
-            morning: "Godmorgen",
-            afternoon: "God eftermiddag",
-            evening: "God aften",
-        },
-    };
+    const g = STRINGS[locale].greetings;
 
     let baseGreeting = "";
+    if (hour < 12) baseGreeting = g.morning;
+    else if (hour < 18) baseGreeting = g.afternoon;
+    else baseGreeting = g.evening;
 
-    if (hour < 12) baseGreeting = greetings[locale].morning;
-    else if (hour < 18) baseGreeting = greetings[locale].afternoon;
-    else baseGreeting = greetings[locale].evening;
-
-    // NEW logic added below:
     return name && name.trim() !== "" ? `${baseGreeting}, ${name}!` : `${baseGreeting}!`;
 }
 
@@ -51,7 +38,8 @@ export default function Index() {
     const { drinks, addDrink, resetSettings } = useDrinks();
     const [showAddModal, setShowAddModal] = useState(false);
     const [currentTime, setCurrentTime] = useState(new Date());
-    const { userName, dailyLimit, timeFormat }  = useDrinks();
+    const { userName, dailyLimit, timeFormat, language }  = useDrinks();
+    const langCode = normalizeLanguage(language);
 
 
     useEffect(() => {
@@ -74,15 +62,15 @@ export default function Index() {
     const caffeinePercentage = Math.min((todaysCaffeine / dailyLimit) * 100);
     const caffeineOverage = todaysCaffeine - dailyLimit;
     const remainingText = caffeineOverage <= 0
-        ? `${Math.abs(caffeineOverage)}mg remaining`
-        : `${caffeineOverage}mg over limit`;
+        ? `${Math.abs(caffeineOverage)}${STRINGS[langCode].home.stats.remainingLabel}`
+        : `${caffeineOverage}${STRINGS[langCode].home.stats.overLimitLabel}`;
 
     const getStatusText = () => {
-        if (todaysCaffeine === 0) return "None";
-        if (todaysCaffeine < dailyLimit * 0.5) return "Low";
-        if (todaysCaffeine < dailyLimit * 0.8) return "Moderate";
-        if (todaysCaffeine < dailyLimit) return "High";
-        return "Excessive";
+        if (todaysCaffeine === 0) return STRINGS[langCode].home.status.none;
+        if (todaysCaffeine < dailyLimit * 0.5) return STRINGS[langCode].home.status.low;
+        if (todaysCaffeine < dailyLimit * 0.8) return STRINGS[langCode].home.status.moderate;
+        if (todaysCaffeine < dailyLimit) return STRINGS[langCode].home.status.high;
+        return STRINGS[langCode].home.status.excessive;
     };
 
     const getTimeSinceLastDrink = () => {
@@ -127,10 +115,10 @@ export default function Index() {
                     <View className="flex-row justify-between items-start">
                         <View>
                             <Text className="text-2xl font-bold text-white">
-                                {getGreeting("en", userName)}
+                                {getGreeting(langCode, userName)}
                             </Text>
                             <Text className="text-slate-400 text-sm mt-1">
-                                Track your caffeine intake
+                                {STRINGS[langCode].home.trackCaffeine}
                             </Text>
                         </View>
 
@@ -139,7 +127,7 @@ export default function Index() {
                                 {getStatusText()}
                             </Text>
                             <Text className="text-xs text-slate-500">
-                                {todaysCaffeine}mg active
+                                {todaysCaffeine}{STRINGS[langCode].home.stats.mgActiveSuffix}
                             </Text>
                         </View>
                     </View>
@@ -160,9 +148,9 @@ export default function Index() {
                                 <View className="w-6 h-6 bg-cyan-500 rounded-lg items-center justify-center mb-3">
                                     <Zap size={14} color="white" />
                                 </View>
-                                <Text className="text-slate-400 text-xs mb-1">Today's Intake</Text>
+                                <Text className="text-slate-400 text-xs mb-1">{STRINGS[langCode].home.stats.todaysIntake}</Text>
                                 <Text className="text-xl font-bold text-white">{todaysCaffeine}mg</Text>
-                                <Text className="text-xs text-slate-500">{todaysDrinks.length} drinks</Text>
+                                <Text className="text-xs text-slate-500">{todaysDrinks.length} {STRINGS[langCode].home.stats.drinksSuffix}</Text>
                             </CardContent>
                         </Card>
 
@@ -171,9 +159,9 @@ export default function Index() {
                                 <View className="w-6 h-6 bg-pink-500 rounded-lg items-center justify-center mb-3">
                                     <History size={14} color="white" />
                                 </View>
-                                <Text className="text-slate-400 text-xs mb-1">Last Drink</Text>
+                                <Text className="text-slate-400 text-xs mb-1">{STRINGS[langCode].home.stats.lastDrink}</Text>
                                 <Text className="text-xl font-bold text-white">{getTimeSinceLastDrink()}</Text>
-                                <Text className="text-xs text-slate-500">ago at {getLastDrinkTime()}</Text>
+                                <Text className="text-xs text-slate-500">{STRINGS[langCode].home.stats.agoAtBefore} {getLastDrinkTime()}</Text>
                             </CardContent>
                         </Card>
 
@@ -182,7 +170,7 @@ export default function Index() {
                                 <View className="w-6 h-6 bg-green-500 rounded-lg items-center justify-center mb-3">
                                     <TrendingUp size={14} color="white" />
                                 </View>
-                                <Text className="text-slate-400 text-xs mb-1">Daily Limit</Text>
+                                <Text className="text-slate-400 text-xs mb-1">{STRINGS[langCode].home.stats.dailyLimit}</Text>
                                 <Text className="text-xl font-bold text-white">{Math.round(caffeinePercentage)}%</Text>
                                 <Text className="text-xs text-slate-500">{remainingText}</Text>
                             </CardContent>
@@ -196,7 +184,7 @@ export default function Index() {
                             className="bg-blue-600 px-8 py-3 rounded-full flex-row items-center"
                         >
                             <Plus size={20} color="#ffffff" />
-                            <Text className="text-white font-medium text-base ml-2">Add Drink</Text>
+                            <Text className="text-white font-medium text-base ml-2">{STRINGS[langCode].home.addDrinkButton.addDrink}</Text>
                         </Pressable>
                     </View>
 
@@ -216,7 +204,7 @@ export default function Index() {
                             className="bg-white px-6 py-2 rounded-xl shadow flex-row items-center gap-2"
                         >
                             <SettingsIcon className="text-slate-700" size={16} />
-                            <Text className="text-slate-700 font-semibold">Settings</Text>
+                            <Text className="text-slate-700 font-semibold">{STRINGS[langCode].settings.title}</Text>
                         </Pressable>
                     </View>
 

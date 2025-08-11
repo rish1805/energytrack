@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text } from "react-native";
 import Svg, { Circle } from "react-native-svg";
+import {STRINGS, normalizeLanguage } from "@/components/language/Strings";
+import {useDrinks} from "@/components/AppContext";
 
 interface CaffeineRingProps {
     percentage: number;
@@ -15,6 +17,8 @@ const CaffeineRing = ({ percentage, current, limit }: CaffeineRingProps) => {
     const circumference = normalizedRadius * 2 * Math.PI;
     const visualPercentage = Math.min(percentage, 100);
     const strokeDashoffset = circumference - (visualPercentage / 100) * circumference;
+    const { language } = useDrinks();
+    const langCode = normalizeLanguage(language);
 
     const getRingColor = () => {
         if (percentage >= 100) return "#facc15"; // yellow-400
@@ -62,8 +66,8 @@ const CaffeineRing = ({ percentage, current, limit }: CaffeineRingProps) => {
             {/* Center content */}
             <View className="absolute inset-0 items-center justify-center">
                 <Text style={{ fontSize: 28 }} className="font-bold text-white">{current}</Text>
-                <Text className="text-sm text-slate-400">mg caffeine</Text>
-                <Text className="text-xs text-slate-500">of {limit}mg daily</Text>
+                <Text className="text-sm text-slate-400">mg {STRINGS[langCode].home.ring.l1}</Text>
+                <Text className="text-xs text-slate-500">{STRINGS[langCode].home.ring.l2p1} {limit}mg {STRINGS[langCode].home.ring.l2p2}</Text>
             </View>
         </View>
     );

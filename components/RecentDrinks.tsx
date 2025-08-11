@@ -4,8 +4,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Clock } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { useDrinks } from "@/components/AppContext";
-import { useContext } from 'react';
-import {time} from "@expo/fingerprint/cli/build/utils/log";
+import {STRINGS, normalizeLanguage } from "@/components/language/Strings";
 
 interface DrinkEntry {
     id: string;
@@ -35,7 +34,8 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
         .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
         .slice(0, 3);
 
-    const { timeFormat, unit } = useDrinks();
+    const { timeFormat, unit, language } = useDrinks();
+    const langCode = normalizeLanguage(language);
 
     const getDisplayName = (name: string) => {
         const amountMatch = name.match(/\((\d+)\s*ml\)/i);
@@ -49,6 +49,8 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
 
         return name; // keep original if ml or can't parse
     };
+
+
 
 
     {/* if (sortedDrinks.length === 0) {
@@ -77,7 +79,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
             <CardHeader className="pb-3">
                 <View className="flex-row items-center gap-2">
                     <Clock color="white" className="w-5 h-5" />
-                    <Text className="text-white text-lg font-semibold">Recent Drinks</Text>
+                    <Text className="text-white text-lg font-semibold">{STRINGS[langCode].home.recent.recentDrinks}</Text>
                 </View>
             </CardHeader>
 
@@ -121,8 +123,8 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
                             ))
                         ) : (
                             <View className="flex-1 items-center justify-center h-[170px]">
-                                <Text className="text-slate-400 text-sm">No drinks logged today</Text>
-                                <Text className="text-slate-400 text-sm">Start tracking your caffeine intake by adding a drink</Text>
+                                <Text className="text-slate-400 text-sm">{STRINGS[langCode].home.recent.noDrinksLogged1}</Text>
+                                <Text className="text-slate-400 text-sm">{STRINGS[langCode].home.recent.noDrinksLogged2}</Text>
                             </View>
                         )}
                     </View>
@@ -131,8 +133,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
                         <Text
                             onPress={() => router.push('/all-drinks')}
                             className="text-blue-400 text-sm font-medium"
-                        >
-                            See all →
+                        >{STRINGS[langCode].home.recent.seeAllDrinks}
                         </Text>
                     </View>
                 </View>
