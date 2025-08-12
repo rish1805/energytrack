@@ -112,7 +112,7 @@ export default function AllDrinksScreen() {
                             >
                                 <View>
                                     <Text className="text-white text-base font-medium">{getDisplayName(item.name)}</Text>
-                                    <Text className="text-slate-400 text-xs">{item.category} • {item.caffeine}mg</Text>
+                                    <Text className="text-slate-400 text-xs">{item.category.charAt(0).toUpperCase()+item.category.slice(1)} • {item.caffeine}mg</Text>
                                     <Text className="text-slate-500 text-xs">
                                         {new Date(item.time).toLocaleString(dateFormat === "American" ? "en-US" : "en-GB", {
                                             day: "2-digit",
