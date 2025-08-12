@@ -55,7 +55,18 @@ export const STRINGS: Record<LangCode, {
             noDrinksLogged2: string;
         }
     };
-    settings: { title: string };
+    settings: {
+        title: string
+    },
+    deleteConfirm : {
+        title: string;
+        text: string;
+        cancel: string;
+        delete: string;
+        deleteAllDrinks: string;
+        subText: string;
+        deleteAll: string;
+    };
 }> = {
     en: {
         greetings: {
@@ -101,6 +112,15 @@ export const STRINGS: Record<LangCode, {
         settings: {
             title: 'Settings'
         },
+        deleteConfirm: {
+            title: "Delete Drink",
+            text: "Are you sure you want to remove this drink?",
+            cancel: "Cancel",
+            delete: "Delete",
+            deleteAllDrinks: "Delete All Drinks",
+            subText: "This will remove every drink entry. Are you sure?",
+            deleteAll: "Delete All",
+        },
     },
     da: {
         greetings: {
@@ -144,7 +164,18 @@ export const STRINGS: Record<LangCode, {
             }
 
         },
-        settings: { title: 'Indstillinger' },
+        settings: {
+            title: 'Indstillinger'
+        },
+        deleteConfirm: {
+            title: "Slet Drik",
+            text: "Er du sikker på, at du vil fjerne denne drik?",
+            cancel: "Annuller",
+            delete: "Slet",
+            deleteAllDrinks: "Slet Alle Drikkevarer",
+            subText: "Dette vil fjerne alle drikkevareposter. Er du sikker?",
+            deleteAll: "Slet Alle",
+        },
     },
     de: {
         greetings: {
@@ -187,6 +218,17 @@ export const STRINGS: Record<LangCode, {
                 noDrinksLogged2: "Starten Sie die Verfolgung",
             }
         },
-        settings: { title: 'Einstellungen' },
+        settings: {
+            title: 'Einstellungen'
+        },
+        deleteConfirm: {
+            title: "Getränk Löschen",
+            text: "Möchten Sie dieses Getränk wirklich entfernen?",
+            cancel: "Abbrechen",
+            delete: "Löschen",
+            deleteAllDrinks: "Alle Getränke Löschen",
+            subText: "Dadurch werden alle Getränkeeinträge entfernt. Sind Sie sicher?",
+            deleteAll: "Alle Löschen",
+        },
     },
 };

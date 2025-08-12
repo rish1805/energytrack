@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import { useNavigation } from '@react-navigation/native';
 import { ArrowLeft, Trash2 } from 'lucide-react-native';
 import { useDrinks } from "@/components/AppContext";
+import {STRINGS, normalizeLanguage } from "@/components/language/Strings";
 
 interface DrinkEntry {
     id: string;
@@ -15,16 +16,20 @@ interface DrinkEntry {
 
 export default function AllDrinksScreen() {
     const navigation = useNavigation();
-    const { drinks, deleteDrink, refreshDrinks, dateFormat, timeFormat, unit, clearAllDrinks } = useDrinks();
+    const { drinks, deleteDrink, refreshDrinks, dateFormat, timeFormat, unit, clearAllDrinks, language } = useDrinks();
+    const langCode = normalizeLanguage(language);
 
     const handleDeleteDrink = (id: string) => {
         Alert.alert(
-            "Delete Drink",
-            "Are you sure you want to remove this drink?",
+            STRINGS[langCode].deleteConfirm.title,
+            STRINGS[langCode].deleteConfirm.text,
             [
-                { text: "Cancel", style: "cancel" },
                 {
-                    text: "Delete",
+                    text: STRINGS[langCode].deleteConfirm.cancel,
+                    style: "cancel"
+                },
+                {
+                    text: STRINGS[langCode].deleteConfirm.delete,
                     style: "destructive",
                     onPress: () => {
                         deleteDrink(id); // Uses context
@@ -49,7 +54,7 @@ export default function AllDrinksScreen() {
 
         if (unit === 'oz' && amountMatch) {
             const ml = parseInt(amountMatch[1]);
-            const oz = (ml * 0.033814).toFixed(1); // or however precise you want
+            const oz = (ml * 0.033814).toFixed(1); // or however precise we want
             return `${baseName} (${oz} oz)`;
         }
 
@@ -58,11 +63,17 @@ export default function AllDrinksScreen() {
 
     const handleDeleteAll = () => {
         Alert.alert(
-            "Delete All Drinks",
-            "This will remove every drink entry. Are you sure?",
+            STRINGS[langCode].deleteConfirm.deleteAllDrinks,
+            STRINGS[langCode].deleteConfirm.subText,
             [
-                { text: "Cancel", style: "cancel" },
-                { text: "Delete All", style: "destructive", onPress: clearAllDrinks }
+                {
+                    text: STRINGS[langCode].deleteConfirm.cancel,
+                    style: "cancel"
+                },
+                {
+                    text: STRINGS[langCode].deleteConfirm.deleteAll,
+                    style: "destructive",
+                    onPress: clearAllDrinks }
             ]
         );
     };
