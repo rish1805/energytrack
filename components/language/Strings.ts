@@ -58,6 +58,11 @@ export const STRINGS: Record<LangCode, {
     settings: {
         title: string
     },
+    allDrinkspage: {
+        allDrinks: string;
+        emptyPagetext1: string;
+        emptyPagetext2: string;
+    },
     deleteConfirm : {
         title: string;
         text: string;
@@ -67,7 +72,20 @@ export const STRINGS: Record<LangCode, {
         subText: string;
         deleteAll: string;
     };
+    buttons: {
+        back: string;
+    };
+    categories: {
+        energy: string;
+        coffee: string;
+        preworkout: string;
+        soda: string;
+        tea: string;
+        other: string;
+    }
+
 }> = {
+
     en: {
         greetings: {
             morning: "Good morning",
@@ -112,6 +130,11 @@ export const STRINGS: Record<LangCode, {
         settings: {
             title: 'Settings'
         },
+        allDrinkspage: {
+            allDrinks: "All Drinks",
+            emptyPagetext1: "No drinks logged",
+            emptyPagetext2: "Start tracking your caffeine intake."
+        },
         deleteConfirm: {
             title: "Delete Drink",
             text: "Are you sure you want to remove this drink?",
@@ -121,6 +144,18 @@ export const STRINGS: Record<LangCode, {
             subText: "This will remove every drink entry. Are you sure?",
             deleteAll: "Delete All",
         },
+        buttons: {
+            back: "Back",
+        },
+        categories: {
+            energy: "Energy",
+            coffee: "Coffee",
+            preworkout: "Pre‑workout",
+            soda: "Soda",
+            tea: "Tea",
+            other: "Other",
+        },
+
     },
     da: {
         greetings: {
@@ -167,6 +202,11 @@ export const STRINGS: Record<LangCode, {
         settings: {
             title: 'Indstillinger'
         },
+        allDrinkspage: {
+            allDrinks: "Alle Drikkevarer",
+            emptyPagetext1: "Ingen drikkevarer logget",
+            emptyPagetext2: "Begynd at spore dit koffeinindtag."
+        },
         deleteConfirm: {
             title: "Slet Drik",
             text: "Er du sikker på, at du vil fjerne denne drik?",
@@ -176,6 +216,18 @@ export const STRINGS: Record<LangCode, {
             subText: "Dette vil fjerne alle drikkevareposter. Er du sikker?",
             deleteAll: "Slet Alle",
         },
+        buttons: {
+            back: "Tilbage",
+        },
+        categories: {
+            energy: "Energi",
+            coffee: "Kaffe",
+            preworkout: "Pre‑workout",
+            soda: "Sodavand",
+            tea: "Te",
+            other: "Andet",
+        },
+
     },
     de: {
         greetings: {
@@ -221,6 +273,11 @@ export const STRINGS: Record<LangCode, {
         settings: {
             title: 'Einstellungen'
         },
+        allDrinkspage: {
+            allDrinks: "Alle Getränke",
+            emptyPagetext1: "Keine Getränke protokolliert",
+            emptyPagetext2: "Beginnen Sie, Ihre Koffeinaufnahme zu verfolgen.",
+        },
         deleteConfirm: {
             title: "Getränk Löschen",
             text: "Möchten Sie dieses Getränk wirklich entfernen?",
@@ -230,5 +287,17 @@ export const STRINGS: Record<LangCode, {
             subText: "Dadurch werden alle Getränkeeinträge entfernt. Sind Sie sicher?",
             deleteAll: "Alle Löschen",
         },
+        buttons: {
+            back: "Zurück",
+        },
+        categories: {
+            energy: "Energy",
+            coffee: "Kaffee",
+            preworkout: "Pre‑Workout",
+            soda: "Soda",
+            tea: "Tee",
+            other: "Andere",
+        },
+
     },
 };
