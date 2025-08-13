@@ -101,7 +101,7 @@ const RecentDrinks = ({ drinks }: RecentDrinksProps) => {
                                                     {getDisplayName(drink.name)}
                                                 </Text>
                                                 <Text className="text-xs text-slate-400 capitalize">
-                                                    {drink.category}
+                                                    {STRINGS[langCode].categories[drink.category]}
                                                 </Text>
                                             </View>
                                         </View>

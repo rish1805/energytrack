@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ArrowLeft, Trash2 } from 'lucide-react-native';
 import { useDrinks } from "@/components/AppContext";
 import {STRINGS, normalizeLanguage } from "@/components/language/Strings";
+import {STRING} from "postcss-selector-parser";
 
 interface DrinkEntry {
     id: string;
@@ -90,11 +91,11 @@ export default function AllDrinksScreen() {
             <View className="flex-1 bg-slate-900 px-4 pt-6">
                 <Pressable onPress={() => navigation.goBack()} className="mt-6 mb-4 flex-row items-center gap-2">
                     <ArrowLeft size={20} color="white" />
-                    <Text className="text-white text-base font-medium">Back</Text>
+                    <Text className="text-white text-base font-medium">{STRINGS[langCode].buttons.back}</Text>
                 </Pressable>
 
                 <View className="flex-row justify-between items-center mb-4">
-                    <Text className="text-2xl font-bold text-white">All Drinks</Text>
+                    <Text className="text-2xl font-bold text-white">{STRINGS[langCode].allDrinkspage.allDrinks}</Text>
                     {drinks.length > 0 && (
                         <Pressable onPress={handleDeleteAll} className="p-2">
                             <Trash2 size={22} color="#f87171" />
@@ -106,8 +107,8 @@ export default function AllDrinksScreen() {
                 {drinks.length === 0 ? (
                     <View className="mb-3 px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 flex-row justify-between items-center">
                         <View>
-                            <Text className="text-white text-base font-medium">No drinks logged</Text>
-                            <Text className="text-slate-400 text-xs mt-1">Start tracking your caffeine intake.</Text>
+                            <Text className="text-white text-base font-medium">{STRINGS[langCode].allDrinkspage.emptyPagetext1}</Text>
+                            <Text className="text-slate-400 text-xs mt-1">{STRINGS[langCode].allDrinkspage.emptyPagetext2}</Text>
                         </View>
                     </View>
                 ) : (
@@ -123,7 +124,7 @@ export default function AllDrinksScreen() {
                             >
                                 <View>
                                     <Text className="text-white text-base font-medium">{getDisplayName(item.name)}</Text>
-                                    <Text className="text-slate-400 text-xs">{item.category.charAt(0).toUpperCase()+item.category.slice(1)} • {item.caffeine}mg</Text>
+                                    <Text className="text-slate-400 text-xs">{STRINGS[langCode].categories[item.category]} • {item.caffeine}mg</Text>
                                     <Text className="text-slate-500 text-xs">
                                         {new Date(item.time).toLocaleString(dateFormat === "American" ? "en-US" : "en-GB", {
                                             day: "2-digit",
