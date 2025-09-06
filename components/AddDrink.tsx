@@ -9,6 +9,7 @@ import {
     FlatList,
 } from 'react-native';
 import { useDrinks } from "@/components/AppContext";
+import {STRINGS, normalizeLanguage } from "@/components/language/Strings";
 
 interface DrinkEntry {
     name: string;
@@ -95,7 +96,8 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
         other: 'border-gray-500 bg-gray-500/10',
     };
 
-    const { unit } = useDrinks()
+    const { unit, language} = useDrinks()
+    const langCode = normalizeLanguage(language);
 
     const getDisplayName = (name: string) => {
         const amountMatch = name.match(/\((\d+)\s*ml\)/i);
@@ -117,17 +119,17 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                 <View className="flex-1 bg-black/60 justify-center items-center px-4">
                     <View className="bg-slate-800 p-6 rounded-2xl w-full max-w-xl h-[85%] border border-slate-700">
                         <View className="flex-1 justify-between space-y-4">
-                            <Text className="text-white text-lg font-bold text-center">Add Drink</Text>
+                            <Text className="text-white text-lg font-bold text-center">{STRINGS[langCode].home.addDrinkButton.addDrink}</Text>
 
-                            <View className="bg-slate-700/50 p-1.5 rounded-full flex-row">
+                            <View className="bg-slate-700/50 p-1.5 rounded-full flex-row mb-1">
                                 <Pressable
                                     onPress={() => setActiveTab('preset')}
                                     className={`flex-1 h-10 rounded-full items-center justify-center ${
                                         activeTab === 'preset' ? 'bg-blue-600' : 'bg-transparent'
                                     }`}
                                 >
-                                    <Text className={`text-sm font-medium ${activeTab === 'preset' ? 'text-white' : 'text-slate-300'}`}>
-                                        Preset Drinks
+                                    <Text className={`text-sm font-medium text-center ${activeTab === 'preset' ? 'text-white' : 'text-slate-300'}`}>
+                                        {STRINGS[langCode].home.addDrinkPage.presetDrinks}
                                     </Text>
                                 </Pressable>
 
@@ -138,13 +140,13 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                                     }`}
                                 >
                                     <Text className={`text-sm font-medium ${activeTab === 'custom' ? 'text-white' : 'text-slate-300'}`}>
-                                        Custom Drink
+                                        {STRINGS[langCode].home.addDrinkPage.customDrinks}
                                     </Text>
                                 </Pressable>
                             </View>
 
-                            <View>
-                                <Text className="text-slate-400 mb-1">Time</Text>
+                            <View className= "mb-2">
+                                <Text className="text-slate-400 mb-1">{STRINGS[langCode].home.addDrinkPage.time}</Text>
                                 <TextInput
                                     value={time}
                                     onChangeText={setTime}
@@ -154,7 +156,7 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                                 />
                             </View>
 
-                            <View className="flex-1">
+                            <View className="flex-1 mb-2">
                                 {activeTab === 'preset' ? (
                                     <FlatList
                                         data={presetDrinks}
@@ -184,15 +186,16 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                                                     className={`rounded-lg border px-4 py-3 mb-2 ${borderColorClass} ${categoryColors[item.category as keyof typeof categoryColors]}`}
                                                 >
                                                     <Text className="text-white font-medium">{getDisplayName(item.name)}</Text>
-                                                    <Text className="text-slate-300 text-xs">{item.caffeine} mg caffeine</Text>
-                                                    <Text className="text-slate-400 text-xs capitalize">{item.category}</Text>
+                                                    <Text className="text-slate-300 text-xs">{item.caffeine} mg {STRINGS[langCode].home.ring.l1}</Text>
+                                                    <Text className="text-slate-400 text-xs capitalize">{STRINGS[langCode].categories[item.category as keyof typeof STRINGS[typeof langCode]["categories"]]}
+                                                    </Text>
                                                 </Pressable>
                                             );
                                         }}
                                     />
                                 ) : (
-                                    <ScrollView className="space-y-3 flex-1">
-                                        <View>
+                                    <ScrollView className="space-y-3 flex-1 ">
+                                        <View className="mb-2">
                                             <Text className="text-slate-400 mb-1">Drink Name</Text>
                                             <TextInput
                                                 value={customName}
@@ -202,7 +205,7 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                                                 placeholderTextColor="#94a3b8"
                                             />
                                         </View>
-                                        <View>
+                                        <View className="mb-2">
                                             <Text className="text-slate-400 mb-1">Caffeine (mg)</Text>
                                             <TextInput
                                                 keyboardType="numeric"
@@ -213,7 +216,7 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                                                 placeholderTextColor="#94a3b8"
                                             />
                                         </View>
-                                        <View>
+                                        <View className="mb-2">
                                             <Text className="text-slate-400 mb-1">Category</Text>
                                             <Pressable
                                                 onPress={() => setCategoryOverlayVisible(true)}

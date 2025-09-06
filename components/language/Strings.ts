@@ -47,7 +47,12 @@ export const STRINGS: Record<LangCode, {
         },
         addDrinkButton: {
             addDrink: string;
-        }
+        },
+        addDrinkPage: {
+            presetDrinks: string;
+            customDrinks: string;
+            time: string;
+        },
         recent: {
             recentDrinks: string;
             seeAllDrinks: string;
@@ -120,6 +125,11 @@ export const STRINGS: Record<LangCode, {
             addDrinkButton: {
                 addDrink: "Add Drink",
             },
+            addDrinkPage: {
+                presetDrinks: "Preset Drinks",
+                customDrinks: "Custom Drinks",
+                time: "Time",
+            },
             recent: {
                 recentDrinks: "Recent Drinks",
                 seeAllDrinks: "See all →",
@@ -190,6 +200,11 @@ export const STRINGS: Record<LangCode, {
             },
             addDrinkButton: {
                 addDrink: "Tilføj drikkevare",
+            },
+            addDrinkPage: {
+                presetDrinks: "Standard drikkevarer",
+                customDrinks: "Tilpassede drikkevarer",
+                time: "Tid",
             },
             recent: {
                 recentDrinks: "Seneste drikkevarer",
@@ -262,6 +277,11 @@ export const STRINGS: Record<LangCode, {
             },
             addDrinkButton: {
                 addDrink: "Getränk Hinzufügen",
+            },
+            addDrinkPage: {
+                presetDrinks: "Voreingestellte Getränke",
+                customDrinks: "Benutzerdefinierte Getränke",
+                time: "Zeit",
             },
             recent: {
                 recentDrinks: "Aktuelle Getränke",
