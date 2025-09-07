@@ -67,7 +67,21 @@ export const STRINGS: Record<LangCode, {
         }
     };
     settings: {
-        title: string
+        title: string;
+        yourName: string;
+        yourNamePlaceholder: string;
+        caffLimit: string;
+        unitOfMeasure: string;
+        dateFormat: string;
+        EU: string;
+        US: string;
+        timeFormat: string;
+        appLanguage: string;
+        en: string;
+        da: string;
+        de: string;
+        resetAllSettings: string;
+        resetToDefault: string;
     },
     allDrinkspage: {
         allDrinks: string;
@@ -151,7 +165,21 @@ export const STRINGS: Record<LangCode, {
             }
         },
         settings: {
-            title: 'Settings'
+            title: 'Settings',
+            yourName: "Your Name",
+            yourNamePlaceholder: "Enter your name",
+            caffLimit: "Daily Caffeine Limit",
+            unitOfMeasure: "Unit of Measurement",
+            dateFormat: "Date Format",
+            EU: "European",
+            US: "American",
+            timeFormat: "Time Format",
+            appLanguage: "App Language",
+            en: "English",
+            da: "Dansk",
+            de: "Deutsch",
+            resetAllSettings: "Reset All Settings",
+            resetToDefault: "Reset to Default",
         },
         allDrinkspage: {
             allDrinks: "All Drinks",
@@ -236,7 +264,21 @@ export const STRINGS: Record<LangCode, {
 
         },
         settings: {
-            title: 'Indstillinger'
+            title: 'Indstillinger',
+            yourName: "Dit Navn",
+            yourNamePlaceholder: "Indtast Dit Navn",
+            caffLimit: "Daglig Koffeingrænse",
+            unitOfMeasure: "Måleenhed",
+            dateFormat: "Datoformat",
+            EU: "Europæisk",
+            US: "Amerikansk",
+            timeFormat: "Tidsformat",
+            appLanguage: "App Sprog",
+            en: "Engelsk",
+            da: "Dansk",
+            de: "Tysk",
+            resetAllSettings: "Nulstil Alle Indstillinger",
+            resetToDefault: "Nulstil Til Standard",
         },
         allDrinkspage: {
             allDrinks: "Alle Drikkevarer",
@@ -318,7 +360,21 @@ export const STRINGS: Record<LangCode, {
             }
         },
         settings: {
-            title: 'Einstellungen'
+            title: 'Einstellungen',
+            yourName: "Ihr Name",
+            yourNamePlaceholder: "Geben Sie Ihren Namen ein",
+            caffLimit: "Tägliches Koffeinlimit",
+            unitOfMeasure: "Maßeinheit",
+            dateFormat: "Datumsformat",
+            EU: "Europäisch",
+            US: "Amerikanisch",
+            timeFormat: "Zeitformat",
+            appLanguage: "App Sprache",
+            en: "Englisch",
+            da: "Dänisch",
+            de: "Deutsch",
+            resetAllSettings: "Alle Einstellungen Zurücksetzen",
+            resetToDefault: "Auf Standard Zurücksetzen",
         },
         allDrinkspage: {
             allDrinks: "Alle Getränke",
