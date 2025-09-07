@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useDrinks } from "@/components/AppContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
+import {STRINGS, normalizeLanguage } from "@/components/language/Strings";
+
 
 export default function SettingsScreen() {
     const navigation = useNavigation();
@@ -27,7 +29,8 @@ export default function SettingsScreen() {
             setUserName,
                             } = useDrinks();
 
-    const { darkTheme, setDarkTheme } = useDrinks();
+    const { darkTheme, setDarkTheme, } = useDrinks();
+    const langCode = normalizeLanguage(language);
 
     useEffect(() => {
         if (userName) {
@@ -50,15 +53,15 @@ export default function SettingsScreen() {
                 {/* Back Button */}
                 <Pressable onPress={() => navigation.goBack()} className="mt-6 mb-4 flex-row items-center gap-2">
                     <ArrowLeft size={20} color="white" />
-                    <Text className="text-white text-base font-medium">Back</Text>
+                    <Text className="text-white text-base font-medium">{STRINGS[langCode].buttons.back}</Text>
                 </Pressable>
 
                 {/* Title */}
-                <Text className="text-2xl font-bold text-white mb-6">Settings</Text>
+                <Text className="text-2xl font-bold text-white mb-6">{STRINGS[langCode].settings.title}</Text>
 
                 {/* Name Setting */}
                 <View className="mb-6">
-                    <Text className="text-white font-semibold mb-1">Your Name</Text>
+                    <Text className="text-white font-semibold mb-1">{STRINGS[langCode].settings.yourName}</Text>
                     <TextInput
                         value={name}
                         onChangeText={(text) => {
@@ -99,7 +102,7 @@ export default function SettingsScreen() {
                                 position: "bottom",
                             });
                         }}
-                        placeholder={userName ? "" : "Enter your name"}
+                        placeholder={userName ? "" : STRINGS[langCode].settings.yourNamePlaceholder}
                         placeholderTextColor="#94a3b8"
                         className="bg-slate-800 text-white rounded px-4 py-2"
                     />
@@ -107,7 +110,7 @@ export default function SettingsScreen() {
 
                 {/* Caffeine Limit */}
                 <View className="mb-6">
-                    <Text className="text-white font-semibold mb-1">Daily Caffeine Limit (mg)</Text>
+                    <Text className="text-white font-semibold mb-1">{STRINGS[langCode].settings.caffLimit} (mg)</Text>
                     <TextInput
                         value={limit}
                         onChangeText={setLimit}
@@ -138,7 +141,7 @@ export default function SettingsScreen() {
 
                 {/* Unit of Measurement */}
                 <View className="mb-6">
-                    <Text className="text-white font-semibold mb-1">Unit of Measurement</Text>
+                    <Text className="text-white font-semibold mb-1">{STRINGS[langCode].settings.unitOfMeasure}</Text>
                     <View className="flex-row gap-2 mt-2">
                         {(["ml", "oz"] as const).map((u) => (
                             <Pressable
@@ -172,7 +175,7 @@ export default function SettingsScreen() {
 
                 {/* Date Format Selector */}
                 <View className="mb-6">
-                    <Text className="text-white font-semibold mb-1">Date Format</Text>
+                    <Text className="text-white font-semibold mb-1">{STRINGS[langCode].settings.dateFormat}</Text>
                     <View className="flex-row gap-2 mt-2">
                         {(["European", "American"]as const).map((format) => (
                             <Pressable
@@ -190,7 +193,7 @@ export default function SettingsScreen() {
 
                 {/* Time Format Selector */}
                 <View className="mb-6">
-                    <Text className="text-white font-semibold mb-1">Time Format</Text>
+                    <Text className="text-white font-semibold mb-1">{STRINGS[langCode].settings.timeFormat}</Text>
                     <View className="flex-row gap-2 mt-2">
                         {(["24h", "12h"] as const).map((format) => (
                             <Pressable
@@ -208,7 +211,7 @@ export default function SettingsScreen() {
 
                 {/* Language Selector */}
                 <View className="mb-6">
-                    <Text className="text-white font-semibold mb-1">App Language</Text>
+                    <Text className="text-white font-semibold mb-1">{STRINGS[langCode].settings.appLanguage}</Text>
                     <View className="flex-row gap-2 mt-2">
                         {(["English", "Dansk", "Deutsch"] as const).map((lang) => (
                             <Pressable
@@ -225,7 +228,7 @@ export default function SettingsScreen() {
                 </View>
 
                 <View className="mb-6">
-                    <Text className="text-white font-semibold mb-1">Reset All Settings</Text>
+                    <Text className="text-white font-semibold mb-1">{STRINGS[langCode].settings.resetAllSettings}</Text>
                     <Pressable
                         onPress={() => {
                             Alert.alert(
@@ -247,7 +250,7 @@ export default function SettingsScreen() {
                         }}
                         className="mt-2 bg-red-700 px-4 py-2 rounded"
                     >
-                        <Text className="text-white font-medium text-center">Reset to Default</Text>
+                        <Text className="text-white font-medium text-center">{STRINGS[langCode].settings.resetToDefault}</Text>
                     </Pressable>
                 </View>
 

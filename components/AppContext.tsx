@@ -13,7 +13,10 @@ interface Settings {
     userName: string;
     dailyLimit: number;
     unit: 'ml' | 'oz';
-    dateFormat: 'European' | 'American';
+    dateFormat:
+        | 'European' | 'American'
+        | 'Europæisk' | 'Amerikansk'
+        | 'Europäisch' | 'Amerikanisch';
     timeFormat: '24h' | '12h';
     language: 'English' | 'Dansk' | 'Deutsch';
     darkTheme: boolean;
