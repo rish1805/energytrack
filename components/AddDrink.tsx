@@ -196,28 +196,28 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                                 ) : (
                                     <ScrollView className="space-y-3 flex-1 ">
                                         <View className="mb-2">
-                                            <Text className="text-slate-400 mb-1">Drink Name</Text>
+                                            <Text className="text-slate-400 mb-1">{STRINGS[langCode].home.addDrinkPage.drinkName}</Text>
                                             <TextInput
                                                 value={customName}
                                                 onChangeText={setCustomName}
-                                                placeholder="e.g., My Custom Energy Drink"
+                                                placeholder={STRINGS[langCode].home.addDrinkPage.drinkNamePlaceholder}
                                                 className="bg-slate-700 text-white px-3 py-2 rounded-lg"
                                                 placeholderTextColor="#94a3b8"
                                             />
                                         </View>
                                         <View className="mb-2">
-                                            <Text className="text-slate-400 mb-1">Caffeine (mg)</Text>
+                                            <Text className="text-slate-400 mb-1">{STRINGS[langCode].home.addDrinkPage.caffeine} (mg)</Text>
                                             <TextInput
                                                 keyboardType="numeric"
                                                 value={customCaffeine}
                                                 onChangeText={setCustomCaffeine}
-                                                placeholder="e.g., 150"
+                                                placeholder={STRINGS[langCode].home.addDrinkPage.caffeinePlaceholder}
                                                 className="bg-slate-700 text-white px-3 py-2 rounded-lg"
                                                 placeholderTextColor="#94a3b8"
                                             />
                                         </View>
                                         <View className="mb-2">
-                                            <Text className="text-slate-400 mb-1">Category</Text>
+                                            <Text className="text-slate-400 mb-1">{STRINGS[langCode].home.addDrinkPage.category}</Text>
                                             <Pressable
                                                 onPress={() => setCategoryOverlayVisible(true)}
                                                 className="bg-slate-700 rounded-lg px-3 py-3"
@@ -231,7 +231,7 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
 
                             <View className="flex-row justify-between pt-2">
                                 <Pressable onPress={onClose} className="px-4 py-2 rounded-full bg-red-600">
-                                    <Text className="text-white">Cancel</Text>
+                                    <Text className="text-white">{STRINGS[langCode].deleteConfirm.cancel}</Text>
                                 </Pressable>
                                 <Pressable
                                     onPress={handleSubmit}
@@ -246,7 +246,7 @@ const AddDrinkModal = ({ open, onClose, onAdd }: AddDrinkModalProps) => {
                                         (activeTab === 'custom' && (!customName || !customCaffeine))
                                     }
                                 >
-                                    <Text className="text-white font-semibold">+ Add Drink</Text>
+                                    <Text className="text-white font-semibold">+ {STRINGS[langCode].home.addDrinkButton.addDrink}</Text>
                                 </Pressable>
                             </View>
                         </View>

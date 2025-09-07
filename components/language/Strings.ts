@@ -52,6 +52,12 @@ export const STRINGS: Record<LangCode, {
             presetDrinks: string;
             customDrinks: string;
             time: string;
+            drinkName: string;
+            drinkNamePlaceholder: string;
+            category: string;
+            categoryPlaceholder: string;
+            caffeine: string;
+            caffeinePlaceholder: string;
         },
         recent: {
             recentDrinks: string;
@@ -129,6 +135,13 @@ export const STRINGS: Record<LangCode, {
                 presetDrinks: "Preset Drinks",
                 customDrinks: "Custom Drinks",
                 time: "Time",
+                drinkName: "Drink Name",
+                drinkNamePlaceholder: "e.g., My Custom Energy Drink",
+                category: "Category",
+                categoryPlaceholder: "Other",
+                caffeine: "Caffeine",
+                caffeinePlaceholder: "e.g., 150",
+
             },
             recent: {
                 recentDrinks: "Recent Drinks",
@@ -205,6 +218,14 @@ export const STRINGS: Record<LangCode, {
                 presetDrinks: "Standard drikkevarer",
                 customDrinks: "Tilpassede drikkevarer",
                 time: "Tid",
+                drinkName: "Drikkevarenavn",
+                drinkNamePlaceholder: "f.eks. Min Brugerdefinerede Energidrik",
+                category: "Kategori",
+                categoryPlaceholder: "Andre",
+                caffeine: "Koffein",
+                caffeinePlaceholder: "f.eks. 150",
+
+
             },
             recent: {
                 recentDrinks: "Seneste drikkevarer",
@@ -282,6 +303,12 @@ export const STRINGS: Record<LangCode, {
                 presetDrinks: "Voreingestellte Getränke",
                 customDrinks: "Benutzerdefinierte Getränke",
                 time: "Zeit",
+                drinkName: "Getränkename",
+                drinkNamePlaceholder: "z. B. Mein individueller Energydrink",
+                category: "Kategorie",
+                categoryPlaceholder: "Andere",
+                caffeine: "Koffein",
+                caffeinePlaceholder: "z. B. 150",
             },
             recent: {
                 recentDrinks: "Aktuelle Getränke",
