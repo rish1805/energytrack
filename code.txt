@@ -4,4 +4,4 @@ xcrun simctl boot A2B2B38A-B08D-41BB-8D25-CD9946E77B03
 Then run:
 npx expo start --clear
 
-Force first because otherwise expo uses iPhone 16 plus automatically.
+Force first because otherwise expo uses default phone automatically.

@@ -1,14 +1,13 @@
-import { ScrollView, Pressable, Text, View } from "react-native";
-import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Zap, TrendingUp, History } from 'lucide-react-native';
-import CaffeineRing from '@/components/CaffeineRing';
-import RecentDrinks from '@/components/RecentDrinks';
-import { Settings as SettingsIcon } from "lucide-react-native";
 import AddDrinkModal from "@/components/AddDrink";
-import { useRouter, Stack } from "expo-router";
 import { useDrinks } from "@/components/AppContext";
-import {STRINGS, normalizeLanguage } from "@/components/language/Strings";
+import CaffeineRing from '@/components/CaffeineRing';
+import { STRINGS, normalizeLanguage } from "@/components/language/Strings";
+import RecentDrinks from '@/components/RecentDrinks';
+import { Card, CardContent } from "@/components/ui/card";
+import { Stack, useRouter } from "expo-router";
+import { History, Plus, Settings as SettingsIcon, TrendingUp, Zap } from 'lucide-react-native';
+import { useEffect, useState } from "react";
+import { Pressable, ScrollView, Text, View } from "react-native";
 
 // Greeting logic
 function getGreeting(locale: "en" | "da" | "de" = "en", name?: string) {
@@ -35,7 +34,7 @@ interface DrinkEntry {
 // Main page component
 export default function Index() {
     const router = useRouter();
-    const { drinks, addDrink, resetSettings } = useDrinks();
+    const { drinks, addDrink, resetSettings, signOut } = useDrinks();
     const [showAddModal, setShowAddModal] = useState(false);
     const [currentTime, setCurrentTime] = useState(new Date());
     const { userName, dailyLimit, timeFormat, language }  = useDrinks();
@@ -197,14 +196,21 @@ export default function Index() {
                     />
 
 
-                    {/* Settings Button */}
-                    <View className="mt-7 mb-7 items-center">
+                    {/* Settings and Sign Out Buttons */}
+                    <View className="mt-7 mb-7 items-center space-y-3">
                         <Pressable
                             onPress={() => router.push("/settings")}
                             className="bg-white px-6 py-2 rounded-xl shadow flex-row items-center gap-2"
                         >
                             <SettingsIcon className="text-slate-700" size={16} />
                             <Text className="text-slate-700 font-semibold">{STRINGS[langCode].settings.title}</Text>
+                        </Pressable>
+                        
+                        <Pressable
+                            onPress={() => signOut()}
+                            className="bg-red-600 px-6 py-2 rounded-xl shadow flex-row items-center gap-2"
+                        >
+                            <Text className="text-white font-semibold">Sign Out</Text>
                         </Pressable>
                     </View>
 

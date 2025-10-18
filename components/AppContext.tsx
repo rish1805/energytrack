@@ -1,5 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Session, User } from '@supabase/supabase-js';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 export interface DrinkEntry {
     id: string;
@@ -33,6 +35,14 @@ const defaultSettings: Settings = {
 };
 
 interface DrinksContextProps {
+    // Auth related props
+    user: User | null;
+    session: Session | null;
+    signUp: (email: string, password: string) => Promise<void>;
+    signIn: (email: string, password: string) => Promise<void>;
+    signOut: () => Promise<void>;
+    isLoading: boolean;
+    // Existing drink tracking props
     drinks: DrinkEntry[];
     addDrink: (drink: DrinkEntry) => void;
     deleteDrink: (id: string) => void;
@@ -43,8 +53,8 @@ interface DrinksContextProps {
     setDailyLimit: (limit: number) => void;
     unit: 'ml' | 'oz';
     setUnit: (unit: 'ml' | 'oz') => void;
-    dateFormat: 'European' | 'American';
-    setDateFormat: (date: 'European' | 'American') => void;
+    dateFormat: Settings['dateFormat'];
+    setDateFormat: (date: Settings['dateFormat']) => void;
     timeFormat: '24h' | '12h';
     setTimeFormat: (timeFormat: '24h' | '12h') => void;
     language: 'English' | 'Dansk' | 'Deutsch';
@@ -63,6 +73,9 @@ const SETTINGS_KEY = 'appSettings';
 export const DrinksProvider = ({ children }: { children: React.ReactNode }) => {
     const [drinks, setDrinks] = useState<DrinkEntry[]>([]);
     const [settings, setSettings] = useState<Settings>(defaultSettings);
+    const [user, setUser] = useState<User | null>(null);
+    const [session, setSession] = useState<Session | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     // Load drinks
     const loadDrinks = async () => {
@@ -119,6 +132,39 @@ export const DrinksProvider = ({ children }: { children: React.ReactNode }) => {
 
     const refreshDrinks = () => loadDrinks();
 
+    // Auth methods
+    const signUp = async (email: string, password: string) => {
+        const { error } = await supabase.auth.signUp({ email, password });
+        if (error) throw error;
+    };
+
+    const signIn = async (email: string, password: string) => {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+    };
+
+    const signOut = async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+    };
+
+    // Listen for auth changes
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session);
+            setUser(session?.user ?? null);
+            setIsLoading(false);
+        });
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+            setUser(session?.user ?? null);
+            setIsLoading(false);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
+
     useEffect(() => {
         loadDrinks();
         loadSettings();
@@ -145,6 +191,14 @@ export const DrinksProvider = ({ children }: { children: React.ReactNode }) => {
     return (
         <DrinksContext.Provider
             value={{
+                // Auth
+                user,
+                session,
+                signUp,
+                signIn,
+                signOut,
+                isLoading,
+                // Drinks
                 drinks,
                 addDrink,
                 deleteDrink,
